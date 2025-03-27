@@ -1,0 +1,571 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 217 72% 50%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 217 72% 50%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 217 72% 50%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 0 0% 95%;
+    --card: 222 47% 11%;
+    --card-foreground: 0 0% 95%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 217 72% 50%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 217 50% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 217 50% 15%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 217 72% 50%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 217 50% 15%;
+    --input: 217 50% 15%;
+    --ring: 217 72% 50%;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.section-container {
+  @apply container mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Dashboard-like styling */
+.dashboard-card {
+  @apply rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm transition-all duration-300;
+}
+
+.dashboard-button {
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium bg-primary text-white hover:bg-primary/90 transition-colors duration-200 relative overflow-hidden;
+}
+
+.dashboard-button::after {
+  @apply content-[''] absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full;
+  animation: shimmer 2s infinite;
+}
+
+.dashboard-button-outline {
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-md text-sm font-medium border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200;
+}
+
+.feature-chip {
+  @apply inline-flex items-center rounded-full bg-primary/10 text-primary px-3 py-1 text-xs font-medium;
+}
+
+.status-indicator {
+  @apply inline-block w-2 h-2 rounded-full;
+}
+
+.status-ok {
+  @apply bg-green-500;
+}
+
+.status-warning {
+  @apply bg-yellow-500;
+}
+
+.status-error {
+  @apply bg-red-500;
+}
+
+/* Animations */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-in-out forwards;
+}
+
+.animate-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animate-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animate-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animate-delay-400 {
+  animation-delay: 400ms;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced animations for feature cards */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(46, 103, 211, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(46, 103, 211, 0.5);
+  }
+}
+
+.animate-glow {
+  animation: glow 2s infinite ease-in-out;
+}
+
+.hover-scale {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.03);
+  box-shadow: 0 10px 25px -5px rgba(46, 103, 211, 0.1), 0 8px 10px -6px rgba(46, 103, 211, 0.1);
+}
+
+/* Network-themed animations */
+.network-pulse {
+  @apply relative overflow-hidden;
+}
+
+.network-pulse::before {
+  content: '';
+  @apply absolute inset-0 bg-primary/5 opacity-0;
+  animation: networkPulse 2s infinite;
+}
+
+@keyframes networkPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+
+/* Futuristic button styling */
+.btn-futuristic {
+  @apply relative overflow-hidden rounded-md px-4 py-2 bg-transparent font-medium text-sm;
+  border: 1px solid rgba(46, 103, 211, 0.5);
+  transition: all 0.3s;
+}
+
+.btn-futuristic::before {
+  content: '';
+  @apply absolute inset-0 bg-primary/10 opacity-0;
+  transition: all 0.3s;
+}
+
+.btn-futuristic:hover {
+  @apply border-primary;
+  box-shadow: 0 0 15px rgba(46, 103, 211, 0.3);
+}
+
+.btn-futuristic:hover::before {
+  @apply opacity-100;
+}
+
+/* Data flow animation */
+.data-flow {
+  background: linear-gradient(90deg, transparent, rgba(46, 103, 211, 0.2), transparent);
+  background-size: 200% 100%;
+  animation: dataFlow 3s infinite;
+}
+
+@keyframes dataFlow {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* Code block with futuristic style */
+.code-futuristic {
+  @apply relative overflow-hidden rounded-md bg-gray-900 dark:bg-gray-800 text-gray-100 font-mono text-sm p-4;
+  border: 1px solid rgba(46, 103, 211, 0.3);
+}
+
+.code-futuristic::before {
+  content: '';
+  @apply absolute top-0 left-0 h-full w-1 bg-primary;
+  animation: codeHighlight 2s infinite alternate;
+}
+
+@keyframes codeHighlight {
+  0% {
+    opacity: 0.5;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+}
+
+/* Parallax container for screenshots */
+.parallax-container {
+  @apply relative h-60 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800;
+}
+
+.parallax-inner {
+  @apply absolute inset-0 bg-cover bg-center transition-transform duration-500;
+}
+
+/* Dashboard table styling */
+.dashboard-table {
+  @apply w-full border-collapse;
+}
+
+.dashboard-table th {
+  @apply text-left p-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-medium;
+}
+
+.dashboard-table td {
+  @apply p-3 border-t border-gray-200 dark:border-gray-700 text-sm;
+}
+
+.dashboard-table tr:hover {
+  @apply bg-gray-50 dark:bg-gray-700;
+}
+
+.dashboard-metric {
+  @apply bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm border border-gray-200 dark:border-gray-700;
+}
+
+.chart-container {
+  @apply h-64 bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm;
+}
+
+/* Futuristic install section */
+.install-section {
+  @apply relative overflow-hidden;
+}
+
+.install-section::before {
+  content: '';
+  @apply absolute -top-40 -right-40 h-80 w-80 rounded-full;
+  background: radial-gradient(circle, rgba(46, 103, 211, 0.1) 0%, transparent 70%);
+}
+
+.install-section::after {
+  content: '';
+  @apply absolute -bottom-40 -left-40 h-80 w-80 rounded-full;
+  background: radial-gradient(circle, rgba(46, 103, 211, 0.1) 0%, transparent 70%);
+}
+
+/* Network nodes animation */
+.network-node {
+  @apply absolute rounded-full bg-primary;
+  animation: nodeGlow 3s infinite alternate;
+}
+
+@keyframes nodeGlow {
+  0% {
+    opacity: 0.3;
+    box-shadow: 0 0 5px rgba(46, 103, 211, 0.3);
+  }
+  100% {
+    opacity: 0.8;
+    box-shadow: 0 0 15px rgba(46, 103, 211, 0.8);
+  }
+}
+
+/* Code section styling */
+.code-section {
+  @apply relative overflow-hidden;
+}
+
+.code-section pre {
+  @apply p-4 rounded-lg dark:bg-gray-800 bg-gray-900 overflow-x-auto font-mono text-sm text-white border border-gray-700;
+}
+
+.code-section code {
+  @apply text-white;
+}
+
+/* Network line animation */
+.network-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #2e67d3, transparent);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.network-line::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  left: -50%;
+  animation: lineFlow 2s infinite;
+}
+
+@keyframes lineFlow {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+/* Provide custom styling for code installations */
+.install-code-block {
+  @apply relative rounded-lg p-4 mb-6 bg-gray-900 text-gray-200 overflow-hidden;
+}
+
+.install-code-block::before {
+  content: '';
+  @apply absolute top-0 left-0 w-full h-1 bg-primary opacity-50;
+}
+
+.language-tag {
+  @apply absolute top-2 right-3 text-xs text-primary-foreground bg-primary/70 px-2 py-0.5 rounded;
+}
+
+/* Futuristic connecting dots */
+.connecting-dots {
+  @apply absolute z-0 inset-0 overflow-hidden;
+  background-image: radial-gradient(#2e67d3 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.15;
+}
+
+/* Cyber-grid background */
+.cyber-grid {
+  @apply absolute z-0 inset-0 overflow-hidden;
+  background-image: linear-gradient(rgba(46, 103, 211, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(46, 103, 211, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.2;
+}
+
+/* Glass card effect */
+.glass-card {
+  @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-md;
+}
+
+/* Network pulse dot */
+.network-pulse-dot {
+  @apply relative inline-block w-2 h-2 rounded-full bg-primary;
+}
+
+.network-pulse-dot::before {
+  content: '';
+  @apply absolute inset-0 rounded-full bg-primary;
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  80%, 100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Enhanced table hover */
+.enhanced-table-row {
+  @apply transition-all duration-200;
+}
+
+.enhanced-table-row:hover {
+  @apply bg-primary/5;
+}
+
+/* Scanner line animation */
+.scanner-line {
+  @apply absolute inset-0 bg-primary/5 opacity-0;
+  animation: scannerLine 3s infinite;
+}
+
+@keyframes scannerLine {
+  0% {
+    top: -100%;
+    opacity: 0.7;
+  }
+  50% {
+    top: 100%;
+    opacity: 0;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* New futuristic card styles */
+.futuristic-card {
+  @apply relative rounded-lg border border-gray-200/50 dark:border-gray-700/50 bg-white dark:bg-gray-800 p-5 shadow-sm transition-all duration-300 hover:shadow-md overflow-hidden;
+}
+
+.futuristic-card::before {
+  content: '';
+  @apply absolute top-0 left-0 w-1 h-full bg-primary;
+}
+
+.futuristic-card::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary/0;
+}
+
+/* New network grid background */
+.network-grid {
+  @apply absolute inset-0 z-0;
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(46, 103, 211, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(46, 103, 211, 0.05) 1px, transparent 1px);
+  animation: grid-pulse 4s infinite ease-in-out;
+}
+
+@keyframes grid-pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* New shimmer animation */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Chart style fixes for dark mode */
+.recharts-text.recharts-cartesian-axis-tick-value {
+  @apply fill-gray-700 dark:fill-gray-300;
+}
+
+.recharts-text.recharts-label {
+  @apply fill-gray-700 dark:fill-gray-300;
+}
+
+.recharts-legend-item-text {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+.recharts-tooltip-item-name,
+.recharts-tooltip-item-value {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+/* Futuristic highlight animation for buttons */
+.highlight-on-hover {
+  @apply relative overflow-hidden;
+}
+
+.highlight-on-hover::after {
+  content: '';
+  @apply absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full;
+  transition: transform 0.6s ease;
+}
+
+.highlight-on-hover:hover::after {
+  transform: translateX(100%);
+}
+
+/* 3D Button effect */
+.button-3d {
+  @apply relative transform transition-transform active:translate-y-0.5 active:shadow-inner;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Terminal typing effect */
+.typing-animation {
+  border-right: 2px solid rgba(46, 103, 211, 0.75);
+  white-space: nowrap;
+  overflow: hidden;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: rgba(46, 103, 211, 0.75) }
+}
+
+/* Circular rotation */
+.rotate-circle {
+  animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hexagon grid for futuristic background */
+.hexagon-grid {
+  @apply absolute inset-0 z-0 opacity-10;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill='%232e67d3' fill-opacity='0.2'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9z'/%3E%3C/g%3E%3C/svg%3E");
+}
