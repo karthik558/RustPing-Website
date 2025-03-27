@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Moon, Sun, Activity, Server } from 'lucide-react';
+import { Menu, X, Moon, Sun } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -63,10 +63,13 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="h-9 w-9 bg-primary rounded-md flex items-center justify-center relative overflow-hidden group">
-              <Server size={20} className="text-white relative z-10" />
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary-blue to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="absolute top-0 left-0 w-full h-0.5 bg-white/20"></div>
+            <div className="h-9 w-9 rounded-md flex items-center justify-center relative overflow-hidden group">
+              <img 
+                src="/favicon.png" 
+                alt="RustPing Logo" 
+                className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary-blue to-primary opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
             </div>
             <span className="font-semibold text-xl">RustPing</span>
           </div>

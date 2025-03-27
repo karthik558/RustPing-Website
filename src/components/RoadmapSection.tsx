@@ -37,17 +37,20 @@ const RoadmapItem = ({ title, description, status, index }: RoadmapItemProps) =>
   return (
     <div 
       className={cn(
-        "border rounded-md p-4 opacity-0 animate-fade-in-up",
-        status === 'complete' ? 'border-green-200 dark:border-green-800/50' : 
-        status === 'upcoming' ? 'border-blue-200 dark:border-blue-800/50' : 
-        'border-purple-200 dark:border-purple-800/50'
+        "border rounded-md p-4 opacity-0 animate-fade-in-up hover:shadow-md transition-all duration-300 transform hover:-translate-y-1",
+        status === 'complete' ? 'border-green-200 dark:border-green-800/50 hover:border-green-300 dark:hover:border-green-700' : 
+        status === 'upcoming' ? 'border-blue-200 dark:border-blue-800/50 hover:border-blue-300 dark:hover:border-blue-700' : 
+        'border-purple-200 dark:border-purple-800/50 hover:border-purple-300 dark:hover:border-purple-700'
       )}
       style={{ animationDelay: `${100 + index * 100}ms` }}
     >
       <div className="flex items-start">
         <div className={cn(
-          "flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center mr-3 border-2",
-          border
+          "flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center mr-3 border-2 transition-all duration-300",
+          border,
+          status === 'complete' ? 'group-hover:bg-green-50 dark:group-hover:bg-green-900/20' :
+          status === 'upcoming' ? 'group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20' :
+          'group-hover:bg-purple-50 dark:group-hover:bg-purple-900/20'
         )}>
           <Icon size={16} className={
             status === 'complete' ? 'text-green-600 dark:text-green-400' : 
@@ -55,12 +58,18 @@ const RoadmapItem = ({ title, description, status, index }: RoadmapItemProps) =>
             'text-purple-600 dark:text-purple-400'
           } />
         </div>
-        <div className="flex-1">
+        <div className="flex-1 group">
           <div className="flex flex-wrap items-center gap-2 mb-2">
-            <h3 className="font-semibold">{title}</h3>
-            <span className={cn("text-xs px-2 py-0.5 rounded-full", chip)}>{label}</span>
+            <h3 className="font-semibold group-hover:text-primary transition-colors duration-300">{title}</h3>
+            <span className={cn(
+              "text-xs px-2 py-0.5 rounded-full transition-all duration-300", 
+              chip,
+              status === 'complete' ? 'group-hover:bg-green-200 dark:group-hover:bg-green-800/40' :
+              status === 'upcoming' ? 'group-hover:bg-blue-200 dark:group-hover:bg-blue-800/40' :
+              'group-hover:bg-purple-200 dark:group-hover:bg-purple-800/40'
+            )}>{label}</span>
           </div>
-          <p className="text-foreground/70 text-sm">{description}</p>
+          <p className="text-foreground/70 text-sm group-hover:text-foreground/90 transition-colors duration-300">{description}</p>
         </div>
       </div>
     </div>
