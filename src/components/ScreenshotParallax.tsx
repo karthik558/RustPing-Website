@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from '@/lib/utils';
+import ScreenshotModal from './ScreenshotModal';
 
 interface ScreenshotSet {
   dark: string;
@@ -58,6 +59,18 @@ const screenshots: ScreenshotSet[] = [
 const ScreenshotParallax = () => {
   const [mode, setMode] = useState<'dark' | 'light'>(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const [selectedScreenshot, setSelectedScreenshot] = useState<{
+    src: string;
+    title: string;
+  } | null>(null);
+
+  const openScreenshot = (src: string, title: string) => {
+    setSelectedScreenshot({ src, title });
+  };
+
+  const closeScreenshot = () => {
+    setSelectedScreenshot(null);
+  };
 
   return (
     <section id="screenshots" className="py-20 bg-secondary/50 dark:bg-secondary/20">
@@ -100,27 +113,46 @@ const ScreenshotParallax = () => {
               className="opacity-0 animate-fade-in-up"
               style={{ animationDelay: `${100 + index * 100}ms` }}
             >
-              <div 
-                className="parallax-container"
-                onMouseEnter={() => setHoverIndex(index)}
-                onMouseLeave={() => setHoverIndex(null)}
+              <button 
+                className="w-full block text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg"
+                onClick={() => openScreenshot(
+                  mode === 'dark' ? screenshot.dark : screenshot.light,
+                  screenshot.title
+                )}
+                aria-label={`View ${screenshot.title} screenshot`}
               >
                 <div 
-                  className="parallax-inner"
-                  style={{ 
-                    backgroundImage: `url(${mode === 'dark' ? screenshot.dark : screenshot.light})`,
-                    transform: hoverIndex === index ? 'translateZ(0) scale(1.05)' : 'translateZ(0)'
-                  }}
-                />
-              </div>
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">{screenshot.title}</h3>
-                <p className="text-foreground/70 text-sm mt-1">{screenshot.description}</p>
-              </div>
+                  className="parallax-container overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
+                  onMouseEnter={() => setHoverIndex(index)}
+                  onMouseLeave={() => setHoverIndex(null)}
+                >
+                  <div 
+                    className="parallax-inner aspect-video bg-cover bg-center transition-transform duration-300 ease-out"
+                    style={{ 
+                      backgroundImage: `url(${mode === 'dark' ? screenshot.dark : screenshot.light})`,
+                      transform: hoverIndex === index ? 'translateZ(0) scale(1.05)' : 'translateZ(0)'
+                    }}
+                  />
+                </div>
+                <div className="mt-4">
+                  <h3 className="text-lg font-semibold">{screenshot.title}</h3>
+                  <p className="text-foreground/70 text-sm mt-1">{screenshot.description}</p>
+                </div>
+              </button>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Screenshot Modal */}
+      {selectedScreenshot && (
+        <ScreenshotModal
+          isOpen={!!selectedScreenshot}
+          imageSrc={selectedScreenshot.src}
+          title={selectedScreenshot.title}
+          onClose={closeScreenshot}
+        />
+      )}
     </section>
   );
 };
