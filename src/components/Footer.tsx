@@ -1,10 +1,32 @@
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Github, Twitter, Heart, Globe, Mail, BookOpen, Code } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
+  const [logoSrc, setLogoSrc] = useState('/favicon.png');
+   
+   useEffect(() => {
+     // Check system preference for dark mode on initial load
+     const prefersDark = document.documentElement.classList.contains('dark');
+     setLogoSrc(prefersDark ? '/favicon.png' : '/favicon-light.png');
+ 
+     // Create a mutation observer to watch for class changes on the html element
+     const observer = new MutationObserver((mutations) => {
+       mutations.forEach((mutation) => {
+         if (mutation.attributeName === 'class') {
+           const isDark = document.documentElement.classList.contains('dark');
+           setLogoSrc(isDark ? '/favicon.png' : '/favicon-light.png');
+         }
+       });
+     });
+ 
+     observer.observe(document.documentElement, { attributes: true });
+ 
+     return () => {
+       observer.disconnect();
+     };
+   }, []);
+   
   return (
     <footer className="py-12 bg-gray-100 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800">
       <div className="section-container">
@@ -14,7 +36,7 @@ const Footer = () => {
             <div className="flex items-center space-x-2 mb-4">
               <div className="h-8 w-8 rounded-md flex items-center justify-center relative overflow-hidden group">
                 <img 
-                  src="/favicon.png" 
+                  src={logoSrc} 
                   alt="RustPing Logo" 
                   className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
                 />

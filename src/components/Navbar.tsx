@@ -8,6 +8,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [logoSrc, setLogoSrc] = useState('/favicon.png');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +24,7 @@ const Navbar = () => {
     // Check system preference for dark mode
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     setIsDarkMode(prefersDark);
+    setLogoSrc(prefersDark ? '/favicon.png' : '/favicon-light.png');
     
     if (prefersDark) {
       document.documentElement.classList.add('dark');
@@ -40,6 +42,7 @@ const Navbar = () => {
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     document.documentElement.classList.toggle('dark');
+    setLogoSrc(!isDarkMode ? '/favicon.png' : '/favicon-light.png');
   };
 
   // Simplified nav links
@@ -65,7 +68,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-3">
             <div className="h-9 w-9 rounded-md flex items-center justify-center relative overflow-hidden group">
               <img 
-                src="/favicon.png" 
+                src={logoSrc}
                 alt="RustPing Logo" 
                 className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
               />
