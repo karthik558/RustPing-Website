@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Github, Twitter, Heart, Globe, Mail, BookOpen, Code } from 'lucide-react';
+import { Github, Twitter, Heart, Globe, Mail, BookOpen, Code, Linkedin, Instagram } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -48,14 +48,20 @@ const Footer = () => {
               A powerful, real-time network monitoring tool built with Rust and the Rocket web framework, focusing on speed, reliability, and ease of use.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
+              <a href="https://github.com/karthik558" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
                 <Github size={20} />
               </a>
-              <a href="#" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
+              <a href="https://karthiklal.in" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
                 <Globe size={20} />
+              </a>
+              <a href="mailto:dev@karthiklal.in" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
+                <Mail size={20} />
+              </a> 
+              <a href="https://linkedin.com/in/karthiklal" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
+                <Linkedin size={20} />
+              </a>
+              <a href="https://instagram.com/_karthiklal" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
+                <Instagram size={20} />
               </a>
             </div>
           </div>
@@ -90,19 +96,19 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
+                <a href="https://github.com/karthik558/Rust-Ping/blob/main/README.md" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
                   <BookOpen size={14} className="mr-1.5" />
                   <span>Documentation</span>
                 </a>
               </li>
               <li>
-                <a href="#" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
+                <a href="https://github.com/karthik558/Rust-Ping" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
                   <Github size={14} className="mr-1.5" />
                   <span>Contribute</span>
                 </a>
               </li>
               <li>
-                <a href="#" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
+                <a href="https://github.com/karthik558/Rust-Ping/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
                   <Mail size={14} className="mr-1.5" />
                   <span>Report Issues</span>
                 </a>
