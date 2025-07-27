@@ -12,15 +12,15 @@ const InstallationGuideWithCopy = () => {
     <section id="installation" className="py-20 bg-secondary/20">
       <div className="section-container">
         <div className="text-center mb-12">
-          <span className="feature-chip opacity-0 animate-fade-in flex items-center justify-center mx-auto gap-2">
+          <span className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4 opacity-0 animate-fade-in">
             <Terminal size={14} className="text-primary" />
-            Installation Guide
+            Quick Installation
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mt-3 mb-4 opacity-0 animate-fade-in animate-delay-100">
             Get Started with RustPing
           </h2>
           <p className="text-foreground/70 max-w-2xl mx-auto opacity-0 animate-fade-in animate-delay-200">
-            Follow these steps to install and run RustPing on your system.
+            Follow these simple steps to install and run RustPing on your system in minutes.
           </p>
         </div>
 
@@ -38,14 +38,14 @@ const InstallationGuideWithCopy = () => {
                     <Server size={18} className="mr-2 text-primary" />
                     Select Your Platform
                   </h3>
-                  <TabsList className="grid grid-cols-3 w-auto">
-                    <TabsTrigger value="windows" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+                  <TabsList className="grid grid-cols-3 w-auto bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
+                    <TabsTrigger value="windows" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm transition-all">
                       Windows
                     </TabsTrigger>
-                    <TabsTrigger value="linux" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+                    <TabsTrigger value="linux" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm transition-all">
                       Linux
                     </TabsTrigger>
-                    <TabsTrigger value="macos" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+                    <TabsTrigger value="macos" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm transition-all">
                       macOS
                     </TabsTrigger>
                   </TabsList>
@@ -66,26 +66,29 @@ const InstallationGuideWithCopy = () => {
             </div>
             
             {/* Web UI access */}
-            <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/80">
+            <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gradient-to-br from-primary/5 to-blue-500/5 dark:from-primary/10 dark:to-blue-500/10">
               <h3 className="text-lg font-medium mb-4 flex items-center">
                 <Globe size={18} className="mr-2 text-primary" />
-                Access the Web Interface
+                Access the Web Dashboard
               </h3>
               <p className="text-foreground/70 mb-4">
-                Once RustPing is running, you can access the web interface by opening your browser and navigating to:
+                Once RustPing is running, access the web interface at:
               </p>
-              <div className="bg-gray-900 text-white p-3 rounded-md font-mono text-sm relative overflow-hidden">
+              <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm relative overflow-hidden shadow-lg">
                 <span className="block overflow-x-auto whitespace-nowrap custom-scrollbar">
                   http://127.0.0.1:8000/
                 </span>
                 <CopyButton
                   value="http://127.0.0.1:8000/"
-                  className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
+                  className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
                 />
               </div>
-              <p className="text-amber-600 dark:text-amber-400 text-sm mt-2">
-                Note: For Windows, the trailing "/" might be needed if you're directly running the executable.
-              </p>
+              <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+                <p className="text-amber-700 dark:text-amber-300 text-sm flex items-start">
+                  <span className="text-amber-500 mr-2 flex-shrink-0 mt-0.5">💡</span>
+                  Windows users: The trailing "/" might be needed when running the executable directly.
+                </p>
+              </div>
             </div>
           </div>
           
@@ -271,18 +274,17 @@ const InstallationStep = ({
   linkText,
 }: InstallationStepProps) => {
   return (
-    <div className="relative pl-8 border-l border-gray-200 dark:border-gray-700">
+    <div className="relative pl-8 border-l-2 border-primary/30 hover:border-primary/50 transition-colors duration-300">
       {/* Step number bubble */}
-      <div className="absolute -left-4 bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium">
+      <div className="absolute -left-5 bg-gradient-to-br from-primary to-blue-500 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
         {number}
       </div>
       
-      <div className="mb-2">
-        <h4 className="text-md font-medium flex items-center gap-2">
+      <div className="mb-3 pb-6">
+        <h4 className="text-lg font-semibold flex items-center gap-2 mb-2">
           {icon}
           {title}
         </h4>
-      </div>
       
       {note && (
         <p className="text-sm text-foreground/70 mb-2">
@@ -305,13 +307,13 @@ const InstallationStep = ({
               </svg>
             </a>
           ) : (
-            <div className="bg-gray-900 text-white p-2.5 rounded-md font-mono text-sm relative overflow-hidden">
-              <span className="block overflow-x-auto whitespace-nowrap pr-8">
+            <div className="bg-gray-900 text-white p-3 rounded-lg font-mono text-sm relative overflow-hidden shadow-md border border-gray-700">
+              <span className="block overflow-x-auto whitespace-nowrap pr-8 custom-scrollbar">
                 {command}
               </span>
               <CopyButton
                 value={command}
-                className="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors"
+                className="absolute top-2.5 right-2.5 text-gray-400 hover:text-white transition-colors"
               />
             </div>
           )}
@@ -325,16 +327,17 @@ const InstallationStep = ({
       )}
       
       {additionalCommand && (
-        <div className="bg-gray-900 text-white p-2.5 rounded-md font-mono text-sm relative overflow-hidden">
-          <span className="block overflow-x-auto whitespace-nowrap pr-8">
+        <div className="bg-gray-900 text-white p-3 rounded-lg font-mono text-sm relative overflow-hidden shadow-md border border-gray-700">
+          <span className="block overflow-x-auto whitespace-nowrap pr-8 custom-scrollbar">
             {additionalCommand}
           </span>
           <CopyButton
             value={additionalCommand}
-            className="absolute top-2 right-2 text-gray-400 hover:text-white transition-colors"
+            className="absolute top-2.5 right-2.5 text-gray-400 hover:text-white transition-colors"
           />
         </div>
       )}
+    </div>
     </div>
   );
 };

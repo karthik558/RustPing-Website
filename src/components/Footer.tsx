@@ -138,7 +138,7 @@ const Footer = () => {
             <span>for the community</span>
           </div>
           <p className="text-gray-500 dark:text-gray-500">
-            © Copyright {currentYear}. All rights reserved. Developed by{' '}
+            © {currentYear}. Developed by{' '}
             <a 
               href="https://karthiklal.in" 
               target="_blank" 
