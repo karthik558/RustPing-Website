@@ -1,6 +1,7 @@
 
 import React, { useEffect } from 'react';
-import { Activity, Search, Clock, Shield, Database, Layout, MonitorSmartphone, FileCode, Bell, Download } from 'lucide-react';
+import { Activity, Search, Clock, Shield, Database, Layout, MonitorSmartphone, FileCode, Bell, Download, ArrowRight, Github, ExternalLink } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
 import FeatureCard from '@/components/FeatureCard';
@@ -92,32 +93,31 @@ const Index = () => {
       <main>
         <HeroSection />
         
-        {/* Free & Open Source Badge */}
-        <div className="flex justify-center -mt-10 mb-16">
-          <div className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium flex items-center gap-2 animate-pulse relative overflow-hidden">
-            <span className="inline-block w-2 h-2 rounded-full bg-primary"></span>
-            100% Free & Open Source Software
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent data-flow"></div>
-          </div>
-        </div>
-        
         {/* Dashboard Demo Section */}
-        <DashboardDemo />
+        <section id="demo" className="py-24 bg-gradient-to-br from-gray-50/50 to-white dark:from-gray-900/50 dark:to-gray-800/30">
+          <div className="section-container">
+            <DashboardDemo />
+          </div>
+        </section>
         
         {/* Features Section */}
-        <section id="features" className="py-20">
+        <section id="features" className="py-24 bg-white dark:bg-gray-900">
           <div className="section-container">
-            <div className="text-center mb-12">
-              <span className="feature-chip opacity-0 animate-fade-in">Powerful Features</span>
-              <h2 className="text-3xl md:text-4xl font-bold mt-3 mb-4 opacity-0 animate-fade-in animate-delay-100">
-                Everything You Need to Monitor Your Network
+            <div className="text-center mb-16">
+              <div className="glass-card inline-block px-6 py-3 mb-6 fade-in">
+                <span className="text-sm font-semibold text-gradient-primary">Powerful Features</span>
+              </div>
+              <h2 className="heading-lg text-gradient mb-6 slide-up delay-100">
+                Everything You Need for
+                <span className="block text-gradient-primary">Network Monitoring</span>
               </h2>
-              <p className="text-foreground/70 max-w-2xl mx-auto opacity-0 animate-fade-in animate-delay-200">
-                RustPing combines powerful features with an intuitive interface to provide comprehensive network monitoring.
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed slide-up delay-200">
+                RustPing combines cutting-edge technology with an intuitive interface to deliver 
+                comprehensive network monitoring that scales with your needs.
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {features.map((feature, index) => (
                 <FeatureCard
                   key={index}
@@ -131,45 +131,75 @@ const Index = () => {
           </div>
         </section>
         
-        {/* Screenshot Parallax Section */}
-        <ScreenshotParallax />
+        {/* Screenshot Section */}
+        <section id="screenshots" className="py-24 bg-gradient-to-br from-primary/5 via-blue-50/30 to-indigo-50/50 dark:from-primary/10 dark:via-blue-950/20 dark:to-indigo-950/30">
+          <div className="section-container">
+            <ScreenshotParallax />
+          </div>
+        </section>
         
-        {/* Pull Request Section */}
-        <PullRequestBanner />
+        {/* Contribution Section */}
+        <section className="py-24 bg-white dark:bg-gray-900">
+          <div className="section-container">
+            <PullRequestBanner />
+          </div>
+        </section>
         
         {/* Roadmap Section */}
-        <RoadmapSection />
+        <section id="roadmap" className="py-24 bg-gradient-to-br from-gray-50/50 to-white dark:from-gray-900/50 dark:to-gray-800/30">
+          <div className="section-container">
+            <RoadmapSection />
+          </div>
+        </section>
         
         {/* Installation Guide */}
-        <InstallationGuideWithCopy />
+        <section className="py-24 bg-white dark:bg-gray-900">
+          <div className="section-container">
+            <InstallationGuideWithCopy />
+          </div>
+        </section>
         
         {/* CTA Section */}
-        <section className="py-20 text-center">
+        <section className="py-24 bg-gradient-to-br from-primary/5 via-blue-50/30 to-indigo-50/50 dark:from-primary/10 dark:via-blue-950/20 dark:to-indigo-950/30">
           <div className="section-container">
-            <div className="dashboard-card p-10 max-w-4xl mx-auto relative overflow-hidden">
-              <div className="relative z-10">
-                <h2 className="text-3xl font-bold mb-4 opacity-0 animate-fade-in">Ready to Monitor Your Network?</h2>
-                <p className="text-foreground/70 mb-8 max-w-xl mx-auto opacity-0 animate-fade-in animate-delay-100">
-                  Start using RustPing today and take control of your network monitoring with our powerful, real-time solution.
-                </p>
-                <div className="space-x-4 opacity-0 animate-fade-in animate-delay-200">
-                  <a href="#installation" className="dashboard-button py-2.5 px-5 hover:scale-105 transform transition-transform">
-                    Get Started
-                  </a>
-                  <a href="https://github.com/karthik558/Rust-Ping" className="dashboard-button-outline hover:border-primary/50 transition-colors">
-                    View on GitHub
-                  </a>
+            <div className="text-center">
+              <div className="glass-card p-16 max-w-4xl mx-auto relative overflow-hidden group">
+                <div className="relative z-10">
+                  <h2 className="heading-lg text-gradient mb-6">Ready to Transform Your Network Monitoring?</h2>
+                  <p className="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Join thousands of developers and system administrators who trust RustPing 
+                    for their network infrastructure monitoring needs.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <Button 
+                      asChild 
+                      className="btn-modern btn-primary"
+                    >
+                      <a href="#installation" className="flex items-center gap-2">
+                        Start Monitoring Now
+                        <ArrowRight className="w-4 h-4" />
+                      </a>
+                    </Button>
+                    <Button 
+                      asChild 
+                      variant="outline" 
+                      className="btn-modern btn-secondary"
+                    >
+                      <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                        <Github className="w-4 h-4" />
+                        View Source Code
+                        <ExternalLink className="w-3 h-3 opacity-60" />
+                      </a>
+                    </Button>
+                  </div>
                 </div>
+                
+                {/* Enhanced floating elements */}
+                <div className="absolute -top-16 -right-16 w-32 h-32 bg-gradient-to-br from-primary/20 to-blue-500/10 rounded-full blur-2xl float delay-0"></div>
+                <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-gradient-to-br from-blue-500/20 to-indigo-500/10 rounded-full blur-2xl float delay-300"></div>
+                <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-primary/60 rounded-full float delay-100"></div>
+                <div className="absolute bottom-1/4 left-1/4 w-3 h-3 bg-blue-500/60 rounded-full float delay-400"></div>
               </div>
-              
-              {/* Network-themed background */}
-              <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary/10 filter blur-3xl"></div>
-              <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-blue-500/5 filter blur-3xl"></div>
-              
-              {/* Network nodes */}
-              <div className="absolute top-12 right-20 h-2 w-2 rounded-full bg-primary/30 animate-pulse-slow"></div>
-              <div className="absolute bottom-20 left-16 h-1.5 w-1.5 rounded-full bg-primary/40 animate-pulse-slow" style={{animationDelay: '0.5s'}}></div>
-              <div className="absolute top-1/2 right-12 h-1 w-1 rounded-full bg-primary/50 animate-pulse-slow" style={{animationDelay: '1s'}}></div>
             </div>
           </div>
         </section>

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Menu, X, Moon, Sun, Github, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -45,37 +45,29 @@ const Navbar = () => {
     setLogoSrc(!isDarkMode ? '/favicon.png' : '/favicon-light.png');
   };
 
-  // Simplified nav links
   const navLinks = [
-    { name: 'Home', href: '#' },
     { name: 'Features', href: '#features' },
-    { name: 'Dashboard', href: '#dashboard' },
+    { name: 'Demo', href: '#demo' },
+    { name: 'Roadmap', href: '#roadmap' },
     { name: 'Installation', href: '#installation' },
   ];
 
   return (
-    <nav
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-3',
-        isScrolled 
-          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-sm border-b border-gray-200 dark:border-gray-800' 
-          : 'bg-transparent'
-      )}
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
+    <nav className={cn("nav-glass transition-all duration-500", isScrolled && "shadow-xl")}>
+      <div className="section-container">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <div className="h-9 w-9 rounded-md flex items-center justify-center relative overflow-hidden group">
+          <a href="#" className="flex items-center space-x-3 group">
+            <div className="relative w-10 h-10 rounded-2xl bg-gradient-to-br from-primary/10 to-blue-500/10 flex items-center justify-center overflow-hidden group-hover:scale-110 transition-all duration-300">
               <img 
                 src={logoSrc}
                 alt="RustPing Logo" 
-                className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
+                className="w-6 h-6 object-contain transition-transform duration-300" 
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary-blue to-primary opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
-            <span className="font-semibold text-xl">RustPing</span>
-          </div>
+            <span className="text-xl font-bold text-gradient">RustPing</span>
+          </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
@@ -83,109 +75,105 @@ const Navbar = () => {
               <a 
                 key={link.name}
                 href={link.href} 
-                className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors relative group"
+                className="nav-link"
               >
                 {link.name}
-                <span className="absolute -bottom-px left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"></span>
               </a>
             ))}
-            <div className="ml-4 flex items-center space-x-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary"
-                asChild
-              >
-                <a href="#screenshots">View Screenshots</a>
-              </Button>
-              <Button 
-                size="sm" 
-                className="bg-primary hover:bg-primary/90 relative overflow-hidden group"
-                asChild
-              >
-                <a href="#installation">
-                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary/0 via-primary-foreground/20 to-primary/0 transform -translate-x-full animate-shimmer"></span>
-                  Get Started
-                </a>
-              </Button>
-              <button
-                onClick={toggleDarkMode}
-                className="p-2 rounded-md bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors shadow-sm"
-                aria-label="Toggle dark mode"
-              >
-                {isDarkMode ? (
-                  <Sun size={18} className="text-amber-500" />
-                ) : (
-                  <Moon size={18} className="text-primary" />
-                )}
-              </button>
-            </div>
+          </div>
+
+          {/* Right Side Actions */}
+          <div className="hidden md:flex items-center space-x-3">
+            <Button 
+              variant="ghost"
+              size="sm"
+              onClick={toggleDarkMode} 
+              className="w-10 h-10 rounded-xl hover:bg-primary/10 transition-colors duration-300"
+            >
+              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="btn-modern btn-ghost"
+              asChild
+            >
+              <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <Github size={16} />
+                <span className="hide-mobile">GitHub</span>
+                <ExternalLink size={12} className="opacity-60" />
+              </a>
+            </Button>
+            
+            <Button 
+              className="btn-modern btn-primary"
+              asChild
+            >
+              <a href="#installation">Get Started</a>
+            </Button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center space-x-2 md:hidden">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle dark mode"
+          <div className="md:hidden flex items-center space-x-2">
+            <Button 
+              variant="ghost"
+              size="sm"
+              onClick={toggleDarkMode} 
+              className="w-10 h-10 rounded-xl"
             >
-              {isDarkMode ? (
-                <Sun size={20} className="text-amber-500" />
-              ) : (
-                <Moon size={20} className="text-primary" />
-              )}
-            </button>
-            <button
+              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </Button>
+            
+            <Button 
+              variant="ghost"
+              size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle menu"
+              className="w-10 h-10 rounded-xl"
             >
-              {isMenuOpen ? (
-                <X size={24} className="text-gray-600 dark:text-gray-400" />
-              ) : (
-                <Menu size={24} className="text-gray-600 dark:text-gray-400" />
-              )}
-            </button>
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </Button>
           </div>
         </div>
-      </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg mt-2 animate-fade-in">
-          <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-800">
-            {navLinks.map((link, index) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="block px-3 py-3 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors font-medium"
-                style={{ animationDelay: `${index * 50}ms` }}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.name}
-              </a>
-            ))}
-            <div className="mt-3 flex flex-col space-y-2 pb-2">
-              <Button 
-                variant="outline" 
-                className="w-full border-primary/30 text-primary hover:bg-primary/10"
-                asChild
-              >
-                <a href="#screenshots">View Screenshots</a>
-              </Button>
-              <Button 
-                className="w-full bg-primary relative overflow-hidden"
-                asChild
-              >
-                <a href="#installation">
-                  <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary/0 via-primary-foreground/20 to-primary/0 transform -translate-x-full animate-shimmer"></span>
-                  Get Started
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden">
+            <div className="glass-card mt-4 p-6 space-y-4">
+              {navLinks.map((link) => (
+                <a 
+                  key={link.name}
+                  href={link.href} 
+                  className="block text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.name}
                 </a>
-              </Button>
+              ))}
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700 space-y-3">
+                <Button 
+                  variant="outline" 
+                  className="w-full btn-modern btn-ghost justify-center"
+                  asChild
+                >
+                  <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                    <Github size={16} />
+                    View on GitHub
+                    <ExternalLink size={12} className="opacity-60" />
+                  </a>
+                </Button>
+                
+                <Button 
+                  className="w-full btn-modern btn-primary justify-center"
+                  asChild
+                >
+                  <a href="#installation">Get Started</a>
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </nav>
   );
 };

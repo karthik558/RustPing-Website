@@ -28,101 +28,126 @@ const Footer = () => {
    }, []);
    
   return (
-    <footer className="py-12 bg-gray-100 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800">
+    <footer className="footer-modern py-16">
       <div className="section-container">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="h-8 w-8 rounded-md flex items-center justify-center relative overflow-hidden group">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-primary/10 to-blue-500/10 flex items-center justify-center overflow-hidden group">
                 <img 
                   src={logoSrc} 
                   alt="RustPing Logo" 
-                  className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-110" 
+                  className="w-7 h-7 object-contain transition-transform duration-300 group-hover:scale-110" 
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-              <span className="font-semibold text-xl">RustPing</span>
+              <span className="text-2xl font-bold text-gradient">RustPing</span>
             </div>
-            <p className="text-foreground/70 text-sm mb-4 max-w-md">
-              A powerful, real-time network monitoring tool built with Rust and the Rocket web framework, focusing on speed, reliability, and ease of use.
+            <p className="text-gray-600 dark:text-gray-300 text-base mb-6 max-w-md leading-relaxed">
+              A powerful, real-time network monitoring tool built with Rust and modern web technologies, 
+              focusing on speed, reliability, and ease of use.
             </p>
             <div className="flex space-x-4">
-              <a href="https://github.com/karthik558" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
-                <Github size={20} />
+              <a href="https://github.com/karthik558" 
+                 className="w-10 h-10 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-110">
+                <Github size={18} />
               </a>
-              <a href="https://karthiklal.in" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
-                <Globe size={20} />
+              <a href="https://karthiklal.in" 
+                 className="w-10 h-10 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-110">
+                <Globe size={18} />
               </a>
-              <a href="mailto:dev@karthiklal.in" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
-                <Mail size={20} />
+              <a href="mailto:dev@karthiklal.in" 
+                 className="w-10 h-10 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-110">
+                <Mail size={18} />
               </a> 
-              <a href="https://linkedin.com/in/karthiklal" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
-                <Linkedin size={20} />
+              <a href="https://linkedin.com/in/karthiklal" 
+                 className="w-10 h-10 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-110">
+                <Linkedin size={18} />
               </a>
-              <a href="https://instagram.com/_karthiklal" className="text-foreground/60 hover:text-foreground transition-colors hover:scale-110 transform duration-200">
-                <Instagram size={20} />
+              <a href="https://instagram.com/_karthiklal" 
+                 className="w-10 h-10 rounded-xl bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 hover:scale-110">
+                <Instagram size={18} />
               </a>
             </div>
           </div>
 
           {/* Resources */}
           <div>
-            <h3 className="font-medium mb-4 text-sm text-foreground/90 uppercase tracking-wider">Resources</h3>
-            <ul className="space-y-2">
+            <h3 className="font-semibold mb-6 text-gray-900 dark:text-white">Resources</h3>
+            <ul className="space-y-4">
               <li>
-                <a href="#features" className="text-foreground/70 hover:text-foreground text-sm transition-colors hover:translate-x-1 inline-block transform duration-200">Features</a>
+                <a href="#features" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center group">
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">Features</span>
+                </a>
               </li>
               <li>
-                <a href="#screenshots" className="text-foreground/70 hover:text-foreground text-sm transition-colors hover:translate-x-1 inline-block transform duration-200">Screenshots</a>
+                <a href="#screenshots" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center group">
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">Screenshots</span>
+                </a>
               </li>
               <li>
-                <a href="#roadmap" className="text-foreground/70 hover:text-foreground text-sm transition-colors hover:translate-x-1 inline-block transform duration-200">Roadmap</a>
+                <a href="#roadmap" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center group">
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">Roadmap</span>
+                </a>
               </li>
               <li>
-                <a href="#installation" className="text-foreground/70 hover:text-foreground text-sm transition-colors hover:translate-x-1 inline-block transform duration-200">Installation</a>
+                <a href="#installation" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center group">
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">Installation</span>
+                </a>
               </li>
             </ul>
           </div>
 
           {/* Get Started */}
-          <div id="get-started">
-            <h3 className="font-medium mb-4 text-sm text-foreground/90 uppercase tracking-wider">Get Started</h3>
-            <ul className="space-y-2">
+          <div>
+            <h3 className="font-semibold mb-6 text-gray-900 dark:text-white">Get Started</h3>
+            <ul className="space-y-4">
               <li>
-                <a href="#installation" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
-                  <Code size={14} className="mr-1.5" />
-                  <span>Installation Guide</span>
+                <a href="#installation" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center group">
+                  <Code size={16} className="mr-2 opacity-60" />
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">Installation Guide</span>
                 </a>
               </li>
               <li>
-                <a href="https://github.com/karthik558/Rust-Ping/blob/main/README.md" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
-                  <BookOpen size={14} className="mr-1.5" />
-                  <span>Documentation</span>
+                <a href="https://github.com/karthik558/Rust-Ping/blob/main/README.md" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center group">
+                  <BookOpen size={16} className="mr-2 opacity-60" />
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">Documentation</span>
                 </a>
               </li>
               <li>
-                <a href="https://github.com/karthik558/Rust-Ping" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
-                  <Github size={14} className="mr-1.5" />
-                  <span>Contribute</span>
+                <a href="https://github.com/karthik558/Rust-Ping" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center group">
+                  <Github size={16} className="mr-2 opacity-60" />
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">Contribute</span>
                 </a>
               </li>
               <li>
-                <a href="https://github.com/karthik558/Rust-Ping/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen" className="text-foreground/70 hover:text-foreground text-sm transition-colors flex items-center hover:translate-x-1 transform duration-200">
-                  <Mail size={14} className="mr-1.5" />
-                  <span>Report Issues</span>
+                <a href="https://github.com/karthik558/Rust-Ping/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center group">
+                  <Mail size={16} className="mr-2 opacity-60" />
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">Report Issues</span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-800 pt-8 flex flex-col md:flex-row md:items-center md:justify-between">
-          <p className="text-sm text-foreground/60 flex items-center">
-            Made with <Heart size={14} className="text-red-500 mx-1 hover:scale-125 transition-transform duration-300" /> using Rust and React
-          </p>
-          <p className="text-xs text-foreground/50 mt-2 md:mt-0">
-            © Copyright {currentYear}. All rights reserved. Developed by KARTHIK LAL.
+        <div className="glass-card p-6 flex flex-col md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 mb-4 md:mb-0">
+            <span>Built with</span>
+            <Heart size={16} className="text-red-500 mx-1 hover:scale-125 transition-transform duration-300" />
+            <span>for the community</span>
+          </div>
+          <p className="text-gray-500 dark:text-gray-500">
+            © Copyright {currentYear}. All rights reserved. Developed by{' '}
+            <a 
+              href="https://karthiklal.in" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="font-semibold text-primary hover:text-primary/80 transition-colors duration-300 hover:underline"
+            >
+              KARTHIK LAL
+            </a>
+            .
           </p>
         </div>
       </div>
