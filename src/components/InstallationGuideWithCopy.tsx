@@ -75,7 +75,7 @@ const InstallationGuideWithCopy = () => {
                 Once RustPing is running, you can access the web interface by opening your browser and navigating to:
               </p>
               <div className="bg-gray-900 text-white p-3 rounded-md font-mono text-sm relative overflow-hidden">
-                <span className="block overflow-x-auto whitespace-nowrap">
+                <span className="block overflow-x-auto whitespace-nowrap custom-scrollbar">
                   http://127.0.0.1:8000/
                 </span>
                 <CopyButton

@@ -59,7 +59,7 @@ const DashboardDemo = () => {
           
           {/* Toolbar */}
           <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-4 gap-3">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 overflow-x-auto">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 overflow-x-auto custom-scrollbar">
               <div className="relative w-full sm:w-auto min-w-0">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <input
@@ -110,7 +110,7 @@ const DashboardDemo = () => {
           </div>
 
           {/* Device category tabs */}
-          <div className="flex mb-4 gap-1 sm:gap-2 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
+          <div className="flex mb-4 gap-1 sm:gap-2 border-b border-gray-200 dark:border-gray-700 overflow-x-auto custom-scrollbar">
             <button className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white bg-primary rounded-t-md focus:outline-none relative whitespace-nowrap">
               All Devices
               <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-blue"></div>
@@ -137,7 +137,7 @@ const DashboardDemo = () => {
           </div>
 
           {/* Devices table */}
-          <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+          <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 custom-scrollbar">
             <Table className="w-full min-w-[600px]">
               <TableHeader>
                 <TableRow className="bg-gray-50 dark:bg-gray-800">

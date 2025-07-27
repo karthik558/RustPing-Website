@@ -60,6 +60,45 @@ body {
   background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background)) 100%);
 }
 
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(240, 244, 248, 0.3);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, rgb(59, 130, 246) 100%);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, rgb(59, 130, 246) 0%, hsl(var(--primary)) 100%);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: hsl(var(--primary));
+}
+
+/* Firefox Scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary)) rgba(240, 244, 248, 0.3);
+}
+
+.dark html {
+  scrollbar-color: hsl(var(--primary)) rgba(30, 41, 59, 0.3);
+}
+
 .section-container {
   @apply container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
 }
@@ -215,6 +254,36 @@ body {
 .bg-dots {
   background-size: 20px 20px;
   background-image: radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.15) 1px, transparent 0);
+}
+
+/* Custom Scrollbar for Containers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(240, 244, 248, 0.5);
+  border-radius: 3px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, rgb(59, 130, 246) 100%);
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, rgb(59, 130, 246) 0%, hsl(var(--primary)) 100%);
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 /* Feature Card Styles */

@@ -110,7 +110,7 @@ const DashboardPreview = () => {
                   <span className="text-xs text-foreground/60">Last updated: Just now</span>
                 </div>
                 
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto custom-scrollbar">
                   <table className="min-w-full divide-y divide-border">
                     <thead>
                       <tr>
@@ -197,7 +197,7 @@ const DashboardPreview = () => {
                   <span className="text-xs text-foreground/60">Last updated: Just now</span>
                 </div>
                 
-                <div className="bg-black/90 text-green-400 font-mono text-xs p-4 rounded-lg h-64 overflow-y-auto">
+                <div className="bg-black/90 text-green-400 font-mono text-xs p-4 rounded-lg h-64 overflow-y-auto custom-scrollbar">
                   <p>[2023-04-15 08:01:32] INFO: System started</p>
                   <p>[2023-04-15 08:01:33] INFO: Loaded 6 devices for monitoring</p>
                   <p>[2023-04-15 08:01:35] INFO: Starting monitoring services</p>
