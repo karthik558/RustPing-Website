@@ -64,6 +64,28 @@ body {
   @apply container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
 }
 
+/* Mobile-first responsive utilities */
+@media (max-width: 640px) {
+  .section-container {
+    @apply px-4;
+  }
+  
+  /* Mobile-specific button adjustments */
+  .btn-modern {
+    @apply px-6 py-3 text-sm;
+  }
+  
+  /* Mobile table improvements */
+  .table-mobile {
+    font-size: 12px;
+  }
+  
+  /* Mobile typography adjustments */
+  .heading-xl {
+    line-height: 1.1;
+  }
+}
+
 /* Modern Card System */
 .modern-card {
   @apply relative rounded-2xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-gray-200/50 dark:border-gray-800/50 shadow-lg hover:shadow-xl transition-all duration-500 overflow-hidden;

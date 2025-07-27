@@ -38,12 +38,12 @@ const DashboardDemo = () => {
   return (
     <section className="py-12 bg-gray-50 dark:bg-gray-800/20">
       <div className="section-container">
-        <div className="mb-6 text-center">
-          <h2 className="text-2xl font-bold">Interactive Dashboard Demo</h2>
-          <p className="text-foreground/70 mt-2">Experience the RustPing interface</p>
+        <div className="mb-6 text-center px-4">
+          <h2 className="text-xl md:text-2xl font-bold">Interactive Dashboard Demo</h2>
+          <p className="text-foreground/70 mt-2 text-sm md:text-base">Experience the RustPing interface</p>
         </div>
 
-        <div className="dashboard-card dark:bg-gray-900 overflow-hidden p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:border-primary/30 dark:hover:border-primary/30 transition-colors duration-300">
+        <div className="dashboard-card dark:bg-gray-900 overflow-hidden p-2 md:p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:border-primary/30 dark:hover:border-primary/30 transition-colors duration-300 mx-4 md:mx-0">
           {/* Animated network lines at the top */}
           <div className="relative h-1 w-full mb-4 bg-gray-100 dark:bg-gray-800 overflow-hidden">
             <div className="absolute inset-0 flex">
@@ -58,40 +58,42 @@ const DashboardDemo = () => {
           </div>
           
           {/* Toolbar */}
-          <div className="flex flex-wrap justify-between items-center mb-4 gap-3">
-            <div className="flex items-center gap-2">
-              <div className="relative">
+          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-4 gap-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 overflow-x-auto">
+              <div className="relative w-full sm:w-auto min-w-0">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <input
                   type="text"
                   placeholder="Filter by name/IP..."
-                  className="pl-9 pr-4 py-2 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 w-64 focus:border-primary focus:ring-1 focus:ring-primary"
+                  className="pl-9 pr-4 py-2 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 w-full sm:w-64 focus:border-primary focus:ring-1 focus:ring-primary"
                 />
               </div>
-              <Button variant="outline" size="sm" className="text-sm">
-                <Filter className="h-4 w-4 mr-1" />
-                <span>Filter</span>
-              </Button>
-              <Button variant="outline" size="sm" className="text-sm">
-                <X className="h-4 w-4 mr-1" />
-                <span>Clear</span>
-              </Button>
+              <div className="flex gap-2 w-full sm:w-auto">
+                <Button variant="outline" size="sm" className="text-xs sm:text-sm flex-1 sm:flex-none">
+                  <Filter className="h-4 w-4 sm:mr-1" />
+                  <span className="hidden sm:inline">Filter</span>
+                </Button>
+                <Button variant="outline" size="sm" className="text-xs sm:text-sm flex-1 sm:flex-none">
+                  <X className="h-4 w-4 sm:mr-1" />
+                  <span className="hidden sm:inline">Clear</span>
+                </Button>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="text-sm relative group">
-                <RefreshCw className="h-4 w-4 mr-1 group-hover:animate-spin" />
-                <span>Refresh</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm relative group">
+                <RefreshCw className="h-4 w-4 sm:mr-1 group-hover:animate-spin" />
+                <span className="hidden sm:inline">Refresh</span>
                 <span className="absolute -top-1 -right-1 h-2 w-2 bg-green-500 rounded-full"></span>
               </Button>
-              <Button variant="outline" size="sm" className="text-sm">
-                <Download className="h-4 w-4 mr-1" />
-                <span>Logs</span>
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm">
+                <Download className="h-4 w-4 sm:mr-1" />
+                <span className="hidden sm:inline">Logs</span>
               </Button>
-              <Button variant="default" size="sm" className="text-sm bg-primary hover:bg-primary/90">
+              <Button variant="default" size="sm" className="text-xs sm:text-sm bg-primary hover:bg-primary/90 hidden md:flex">
                 <Settings className="h-4 w-4 mr-1" />
                 <span>Manage Devices</span>
               </Button>
-              <Button variant="outline" size="sm" className="text-sm">
+              <Button variant="outline" size="sm" className="text-xs sm:text-sm hidden lg:flex">
                 <Mail className="h-4 w-4 mr-1" />
                 <span>Email Alerts</span>
               </Button>
@@ -100,7 +102,7 @@ const DashboardDemo = () => {
                   <span className="relative z-10">AD</span>
                   <div className="absolute inset-0 bg-gradient-to-tr from-orange-600 to-orange-400 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <Button variant="ghost" size="sm" className="text-sm">
+                <Button variant="ghost" size="sm" className="text-xs sm:text-sm">
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
@@ -108,15 +110,15 @@ const DashboardDemo = () => {
           </div>
 
           {/* Device category tabs */}
-          <div className="flex mb-4 gap-2 border-b border-gray-200 dark:border-gray-700">
-            <button className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-t-md focus:outline-none relative">
+          <div className="flex mb-4 gap-1 sm:gap-2 border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
+            <button className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white bg-primary rounded-t-md focus:outline-none relative whitespace-nowrap">
               All Devices
               <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-blue"></div>
             </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md focus:outline-none transition-colors">
+            <button className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md focus:outline-none transition-colors whitespace-nowrap">
               Critical Device
             </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md focus:outline-none transition-colors">
+            <button className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md focus:outline-none transition-colors whitespace-nowrap">
               <Printer className="h-3.5 w-3.5 inline-block mr-1" />
               Printers
             </button>
@@ -135,45 +137,49 @@ const DashboardDemo = () => {
           </div>
 
           {/* Devices table */}
-          <div className="overflow-x-auto">
-            <Table className="w-full">
+          <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+            <Table className="w-full min-w-[600px]">
               <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[250px]">Device Name</TableHead>
-                  <TableHead>IP Address</TableHead>
-                  <TableHead>Sensors Used</TableHead>
-                  <TableHead>Ping Status</TableHead>
-                  <TableHead>Bandwidth (Mbps)</TableHead>
-                  <TableHead>HTTP Status</TableHead>
+                <TableRow className="bg-gray-50 dark:bg-gray-800">
+                  <TableHead className="w-[200px] sm:w-[250px] text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2">Device Name</TableHead>
+                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2">IP Address</TableHead>
+                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2">Sensors</TableHead>
+                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2">Ping Status</TableHead>
+                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2 hidden sm:table-cell">Bandwidth</TableHead>
+                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2 hidden md:table-cell">HTTP Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {deviceData.map((device) => (
                   <TableRow key={device.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer group">
-                    <TableCell className="font-medium group-hover:text-primary transition-colors">{device.name}</TableCell>
-                    <TableCell>{device.ip}</TableCell>
-                    <TableCell>
-                      <span className="px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded">
+                    <TableCell className="font-medium group-hover:text-primary transition-colors px-2 sm:px-4 py-2 text-xs sm:text-sm">
+                      <div className="truncate max-w-[150px] sm:max-w-none" title={device.name}>
+                        {device.name}
+                      </div>
+                    </TableCell>
+                    <TableCell className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-mono">{device.ip}</TableCell>
+                    <TableCell className="px-2 sm:px-4 py-2">
+                      <span className="px-1 sm:px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded">
                         {device.sensors}
                       </span>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="px-2 sm:px-4 py-2">
                       <div className="flex items-center">
-                        <span className={`inline-block w-2 h-2 rounded-full mr-2 ${
+                        <span className={`inline-block w-2 h-2 rounded-full mr-1 sm:mr-2 ${
                           device.pingStatus === 'ok' ? 'bg-green-500' : 
                           device.pingStatus === 'fail' ? 'bg-red-500' : 'bg-yellow-500'
                         } ${device.pingStatus === 'ok' ? 'animate-pulse-slow' : ''}`}></span>
-                        <span className="capitalize">{device.pingStatus === 'unknown' ? 'Unknown' : device.pingStatus === 'ok' ? 'OK' : 'Fail'}</span>
+                        <span className="capitalize text-xs sm:text-sm">{device.pingStatus === 'unknown' ? 'Unknown' : device.pingStatus === 'ok' ? 'OK' : 'Fail'}</span>
                       </div>
                     </TableCell>
-                    <TableCell>{device.bandwidth}</TableCell>
-                    <TableCell>
+                    <TableCell className="px-2 sm:px-4 py-2 text-xs sm:text-sm hidden sm:table-cell">{device.bandwidth}</TableCell>
+                    <TableCell className="px-2 sm:px-4 py-2 hidden md:table-cell">
                       <div className="flex items-center">
                         <span className={`inline-block w-2 h-2 rounded-full mr-2 ${
                           device.httpStatus === 'ok' ? 'bg-green-500' : 
                           device.httpStatus === 'fail' ? 'bg-red-500' : 'bg-yellow-500'
                         } ${device.httpStatus === 'ok' ? 'animate-pulse-slow' : ''}`}></span>
-                        <span className="capitalize">{device.httpStatus === 'unknown' ? 'Unknown' : device.httpStatus === 'ok' ? 'OK' : 'Fail'}</span>
+                        <span className="capitalize text-xs sm:text-sm">{device.httpStatus === 'unknown' ? 'Unknown' : device.httpStatus === 'ok' ? 'OK' : 'Fail'}</span>
                       </div>
                     </TableCell>
                   </TableRow>
