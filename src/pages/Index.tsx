@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ScreenshotShowcase from "@/components/ScreenshotShowcase";
 import {
   Activity,
   ArrowDown,
@@ -270,27 +271,7 @@ function SystemSection() {
 }
 
 function InterfaceSection() {
-  return (
-    <section className="section section-interface" id="interface">
-      <div className="shell">
-        <span className="kicker">02 / OPERATIONAL VIEW</span>
-        <div className="interface-title">
-          <h2>Your entire network.<br /><em>One decisive glance.</em></h2>
-          <p>A real product interface—not a wall of charts. RustPing keeps the most important state closest to your attention.</p>
-        </div>
-        <div className="dashboard-frame">
-          <img src="/screenshots/dashboardHome-dark.png" alt="RustPing dashboard showing monitored devices and network health" />
-          <div className="screen-label label-one"><span>01</span> Fleet overview</div>
-          <div className="screen-label label-two"><span>02</span> Live response</div>
-        </div>
-        <div className="capability-row">
-          <div><span>01</span><strong>ICMP + HTTP</strong><p>Multiple probe types in a single workflow.</p></div>
-          <div><span>02</span><strong>Live event stream</strong><p>State changes surface as they happen.</p></div>
-          <div><span>03</span><strong>Exportable history</strong><p>Operational evidence ready when needed.</p></div>
-        </div>
-      </div>
-    </section>
-  );
+  return <ScreenshotShowcase />;
 }
 
 function RoadmapSection() {
