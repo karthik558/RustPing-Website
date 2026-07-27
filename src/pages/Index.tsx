@@ -21,64 +21,68 @@ import {
 } from "lucide-react";
 
 const installCommand =
-  "git clone https://github.com/karthik558/Rust-Ping.git && cd Rust-Ping && cargo run --release";
+  "git clone https://github.com/karthik558/Rust-Ping.git && cd Rust-Ping && npm install && npm run build && cargo run --release";
 
 const features = [
   {
     number: "01",
     icon: Zap,
-    title: "Fast by design",
-    text: "An asynchronous Rust core probes entire subnets without turning your monitoring stack into the bottleneck.",
+    title: "Async Tokio Probing Engine",
+    text: "Asynchronous Rust & Rocket core handles thousands of concurrent ICMP/HTTP probes per second with minimal CPU and RAM usage.",
     visual: "latency",
   },
   {
     number: "02",
     icon: Activity,
-    title: "Live state, no noise",
-    text: "A focused event stream keeps device state, response time, and failures legible while the network is moving.",
+    title: "Multi-Sensor Telemetry",
+    text: "Monitor ICMP ping, HTTP/HTTPS endpoints, TCP port checks (SSH, RDP, DBs), SNMP metrics, and aggregated bandwidth traffic.",
     visual: "chart",
   },
   {
     number: "03",
     icon: Network,
-    title: "One view, every target",
-    text: "Keep local devices, public endpoints, and HTTP services together in one operational surface.",
+    title: "Visual Topology Engine",
+    text: "Render Ring, Star Hub, Grid Mesh, and Parent-Child tree dependency hierarchies to map network interconnectivity.",
     visual: "nodes",
   },
   {
     number: "04",
     icon: Download,
-    title: "Evidence on demand",
-    text: "Filter and export event history for incident reviews, reporting, and long-term analysis.",
+    title: "SLA & Alerting Webhooks",
+    text: "30-day uptime heatmaps, PDF report exporter, and cascade-suppressed alert routing for Slack, Teams, PagerDuty, and SMTP.",
     visual: "export",
   },
 ];
 
 const roadmap = [
-  ["01", "Async ICMP engine", "Released"],
-  ["02", "Log export system", "Released"],
-  ["03", "Role-based access", "In development"],
-  ["04", "Visual device manager", "In development"],
-  ["05", "TCP + UDP probes", "Planned"],
-  ["06", "Webhook alerts", "Planned"],
+  ["01", "Async Tokio ICMP Engine", "Released"],
+  ["02", "Multi-Sensor Probing (HTTP/TCP/SNMP)", "Released"],
+  ["03", "Visual Topology Engine (Ring/Star/Mesh/Tree)", "Released"],
+  ["04", "SLA & 30-Day Heatmap Exporter", "Released"],
+  ["05", "Webhook Alerts (Slack/Teams/PagerDuty)", "Released"],
+  ["06", "Parent Dependency Cascade Suppression", "Released"],
 ];
 
 const faqs = [
   [
-    "What can RustPing monitor?",
-    "RustPing monitors ICMP response, HTTP endpoint status, and network performance signals across local and remote infrastructure.",
+    "What sensors does RustPing support?",
+    "RustPing monitors ICMP ping (latency & packet loss), HTTP/HTTPS response codes, TCP port availability (SSH, RDP, MySQL, Postgres), SNMP switch query metrics, and network traffic throughput.",
   ],
   [
-    "Which systems can run it?",
-    "RustPing compiles natively on Linux, Windows, and macOS. A current Rust toolchain is the main requirement.",
+    "How does RustPing handle alert spam during gateway outages?",
+    "RustPing features Parent Dependency Tree Mapping. When a parent switch or gateway drops, downstream child notifications are suppressed to prevent alert cascades.",
   ],
   [
-    "Does it require a hosted account?",
-    "No. RustPing is self-hosted, so your infrastructure data stays in the environment you control.",
+    "Which operating systems can run it?",
+    "RustPing compiles natively on Linux (Ubuntu, Debian, RHEL), macOS (Apple Silicon & Intel), and Windows 10/11 (MSYS2/MinGW).",
   ],
   [
-    "Can I export monitoring history?",
-    "Yes. Event history can be filtered and exported in common formats for reporting and incident review.",
+    "What are the default login credentials?",
+    "The default credentials are username 'admin' and password 'admin', which can be changed immediately under Settings > Operators.",
+  ],
+  [
+    "Does RustPing provide a REST API?",
+    "Yes. RustPing exposes RESTful JSON endpoints (/devices, /logs_json, /export_log, /api/email/config) for automation and integration.",
   ],
 ];
 
