@@ -1,87 +1,133 @@
-# Official RustPing - Website
+![RustPing — Know your network before it knows you](public/og.png)
 
-A modern web application built with React, TypeScript, and Vite, featuring a comprehensive UI component library and robust state management.
+# RustPing Website
 
-## Tech Stack
+The official product website for RustPing, a precise, self-hosted infrastructure monitoring platform powered by Rust.
 
-- React 18
-- TypeScript
-- Vite
-- Tailwind CSS
-- Shadcn UI Components
-- React Query
-- React Router DOM
-- Zod for validation
-- React Hook Form
+The site presents RustPing through a focused editorial system built around live telemetry, operational clarity, and technical performance. It includes the product overview, interface showcase, development roadmap, deployment guide, frequently asked questions, and MIT license terms.
 
-## Features
+[View the live website](https://rustping-monitor.chaises-toes-5e67b87.chatgpt.site)
 
-- Modern and responsive UI components
-- Type-safe development with TypeScript
-- Efficient state management with React Query
-- Form handling with React Hook Form and Zod validation
-- Client-side routing with React Router
-- Tailwind CSS for styling
-- Comprehensive UI component library
+## Product
 
-## Getting Started
+RustPing gives infrastructure teams a clear view of network health without adding unnecessary complexity. Its asynchronous monitoring engine tracks device availability, response time, HTTP status, and operational events from a single self-hosted interface.
 
-### Prerequisites
+The website communicates four core product principles:
 
-- Node.js (v18 or higher)
-- npm or yarn
+- Fast by design through an asynchronous Rust and Tokio core
+- Live network state presented without visual noise
+- Unified monitoring for local devices, public endpoints, and HTTP services
+- Exportable event history for reporting and incident review
 
-### Installation
+## Website Experience
 
-1. Clone the repository:
-```bash
-git clone https://github.com/karthik558/RustPing-Website
-cd RustPing-Website
-```
+The interface is designed as a professional technical product experience rather than a conventional software template.
 
-2. Install dependencies:
+- Responsive, editorial landing page
+- Animated network telemetry and system-status visuals
+- Product interface showcase using real RustPing screens
+- Structured feature and roadmap sections
+- Copy-ready deployment command
+- Accessible FAQ interactions
+- Dedicated license page
+- Reduced-motion support
+- Custom favicon and social preview assets
+
+## Technology
+
+| Layer | Technology |
+| --- | --- |
+| Application | React 18 and TypeScript |
+| Build system | Vite |
+| Styling | Tailwind CSS and custom CSS |
+| Routing | React Router |
+| Components | Radix UI primitives |
+| Icons | Lucide React |
+| Data utilities | TanStack Query |
+| Production runtime | Cloudflare-compatible Worker entry point |
+
+## Local Development
+
+### Requirements
+
+- Node.js 18 or newer
+- npm
+
+### Setup
+
+Install the project dependencies:
+
 ```bash
 npm install
-# or
-yarn install
 ```
 
-3. Start the development server:
+Start the development server:
+
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-4. Open your browser and navigate to `http://localhost:8080`
+Open the local address printed by Vite in your browser.
 
-### Available Scripts
+### Production Build
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run build:dev` - Build for development
-- `npm run lint` - Run ESLint
-- `npm run preview` - Preview production build
+Create an optimized production build:
+
+```bash
+npm run build
+```
+
+Preview the generated build locally:
+
+```bash
+npm run preview
+```
+
+Run the code quality checks:
+
+```bash
+npm run lint
+```
 
 ## Project Structure
 
+```text
+RustPing-Website/
+├── public/
+│   ├── screenshots/       Product interface imagery
+│   ├── favicon.png        Header-mark favicon
+│   ├── og.png             Social sharing preview
+│   └── rustping-logo.png  Exported transparent wordmark
+├── server/
+│   └── index.js           Production worker entry point
+├── src/
+│   ├── components/        Reusable interface components
+│   ├── hooks/             Shared React hooks
+│   ├── lib/               Application utilities
+│   ├── pages/             Home, license, and fallback routes
+│   ├── App.tsx            Routing and application providers
+│   ├── index.css          Brand system and responsive styling
+│   └── main.tsx           Browser entry point
+├── index.html             Document metadata and favicon setup
+└── package.json           Scripts and project dependencies
 ```
-src/
-├── components/     # Reusable UI components
-├── hooks/         # Custom React hooks
-├── lib/           # Utility functions and configurations
-├── pages/         # Page components
-└── App.tsx        # Main application component
-```
+
+## Brand Assets
+
+The repository includes production-ready brand exports:
+
+- [`public/rustping-logo.png`](public/rustping-logo.png) — transparent full logo at 1600 × 400
+- [`public/favicon.png`](public/favicon.png) — symbol-only favicon at 512 × 512
+- [`public/og.png`](public/og.png) — social preview artwork
+
+## Deployment
+
+The production build outputs the static application and a Cloudflare-compatible worker entry point in `dist/`. Client-side routes fall back to `index.html`, allowing direct access to pages such as `/license`.
+
+The `.openai/hosting.json` file connects this repository to its existing Sites project. Keep its project identifier unchanged when publishing future versions.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+RustPing is distributed under the MIT License. Review the complete terms in [`LICENSE`](LICENSE) or on the website’s dedicated license page.
 
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request.
-
-## Contact
-
-For any inquiries or support, please contact me at [dev@karthiklal.in](mailto:dev@karthiklal.in) or [karthiklal.in](https://karthiklal.in)
+Copyright © 2025 Karthik Lal.
