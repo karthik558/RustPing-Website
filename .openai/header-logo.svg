@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="400" viewBox="0 0 1600 400">
+  <path fill="#D7FF43" d="M48 38h264l50 50v224l-50 50H48L0 314V86z"/>
+  <g fill="none" stroke="#080909" stroke-width="20" stroke-linecap="round">
+    <path d="M102 286c-48-48-48-126 0-174"/>
+    <path d="M143 245c-25-25-25-65 0-90"/>
+    <path d="M260 112c48 48 48 126 0 174"/>
+    <path d="M219 155c25 25 25 65 0 90"/>
+  </g>
+  <circle cx="181" cy="200" r="22" fill="#080909"/>
+  <text x="430" y="255" fill="#F3F1EB" font-family="Helvetica Neue, Arial, sans-serif" font-size="156" font-weight="700" letter-spacing="22">RUST</text>
+  <text x="945" y="255" fill="#858B87" font-family="Helvetica Neue, Arial, sans-serif" font-size="156" font-weight="500" letter-spacing="22">PING</text>
+</svg>
