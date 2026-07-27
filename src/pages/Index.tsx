@@ -114,17 +114,19 @@ function Header() {
         <Brand />
         <nav className="desktop-nav" aria-label="Primary navigation">
           {links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
+          <Link to="/demo" style={{ color: "var(--acid)", fontWeight: 700 }}>Live Demo</Link>
           <Link to="/license">License</Link>
         </nav>
-        <a className="button button-small desktop-cta" href="#setup">
-          Deploy <ArrowRight size={14} />
-        </a>
+        <Link className="button button-small desktop-cta" to="/demo">
+          Live Demo <ArrowRight size={14} />
+        </Link>
         <button className="menu-button" onClick={() => setOpen(!open)} aria-label="Toggle menu" aria-expanded={open}>
           {open ? <X size={21} /> : <Menu size={21} />}
         </button>
       </div>
       {open && (
         <nav className="mobile-nav" aria-label="Mobile navigation">
+          <Link to="/demo" onClick={() => setOpen(false)} style={{ color: "var(--acid)", fontWeight: 700 }}>Live Demo</Link>
           {links.map(([label, href]) => (
             <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
           ))}
@@ -192,8 +194,8 @@ function Hero() {
             precise view of what is alive, what is slow, and what needs you now.
           </p>
           <div className="hero-actions">
-            <a href="#setup" className="button button-primary">Start monitoring <ArrowRight size={17} /></a>
-            <a href="#interface" className="text-link">See the interface <ArrowDown size={15} /></a>
+            <Link to="/demo" className="button button-primary">Try Live Demo <ArrowRight size={17} /></Link>
+            <a href="#setup" className="text-link">Quick setup <ArrowDown size={15} /></a>
           </div>
           <dl className="hero-stats">
             <div><dt>Core</dt><dd>Rust + Tokio</dd></div>
