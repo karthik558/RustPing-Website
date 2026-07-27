@@ -1,137 +1,147 @@
-
 import React from 'react';
-import { ArrowRight, Download, ExternalLink, Server, Activity, Zap, Shield } from 'lucide-react';
+import { ArrowRight, Github, Activity, Shield, CheckCircle, Terminal, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/50 dark:from-gray-900 dark:via-blue-950/20 dark:to-indigo-950/30">
-      {/* Modern Background */}
-      <div className="absolute inset-0 bg-grid opacity-30"></div>
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-primary/5 to-blue-500/5"></div>
-      
-      {/* Floating Elements */}
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-gradient-to-br from-primary/10 to-blue-500/10 rounded-full blur-3xl float delay-0"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-full blur-3xl float delay-300"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-primary/5 to-blue-500/5 rounded-full blur-3xl rotate-slow"></div>
-      
-      {/* Animated Dots */}
-      <div className="absolute top-1/3 left-1/3 w-2 h-2 bg-primary/60 rounded-full float"></div>
-      <div className="absolute bottom-1/3 right-1/3 w-3 h-3 bg-blue-500/60 rounded-full float delay-200"></div>
-      <div className="absolute top-2/3 left-1/5 w-1.5 h-1.5 bg-indigo-500/60 rounded-full float delay-400"></div>
-      
+    <section className="relative min-h-[90vh] flex items-center justify-center pt-28 pb-20 overflow-hidden bg-[#08080a]">
+      {/* Background Soft Radial Glow */}
+      <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-[#e04922]/12 rounded-full blur-[140px] pointer-events-none"></div>
+
       <div className="section-container relative z-10">
-        <div className="max-w-6xl mx-auto text-center">
-          {/* Badge */}
-          <div className="flex justify-center mb-8">
-            <div className="glass-card px-6 py-3 fade-in">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <Shield size={16} className="text-primary" />
-                </div>
-                <span className="text-sm font-semibold text-gradient-primary">100% Free & Open Source Software</span>
-                <div className="flex items-center gap-1">
-                  <Zap size={14} className="text-yellow-500" />
-                  <span className="text-xs text-gray-600 dark:text-gray-400">Blazing Fast</span>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          {/* LEFT COLUMN: High Value Corporate Headline */}
+          <div className="lg:col-span-7 text-left">
+            
+            {/* Category Tag */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#16161c] border border-[#252530] text-[#e04922] text-xs font-mono font-semibold tracking-wide mb-6">
+              <span>// PERFORMANCE OBSERVABILITY</span>
+            </div>
+
+            {/* Main Headline (Reference Image Layout) */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.08]">
+              Performance,
+              <span className="block text-[#e04922] mt-1">
+                tuned to the core.
+              </span>
+            </h1>
+
+            {/* Description */}
+            <p className="text-base sm:text-lg text-slate-300 mb-8 max-w-xl leading-relaxed">
+              Ultra-fast infrastructure monitoring powered by an asynchronous Rust core engine. Track device ICMP pings, HTTP statuses, and bandwidth metrics with zero bloat.
+            </p>
+
+            {/* CTA Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3.5 mb-12">
+              <Button 
+                asChild 
+                className="bg-[#e04922] hover:bg-[#c83b16] text-white font-semibold text-sm px-6 py-6 rounded-md shadow-lg shadow-[#e04922]/25 flex items-center gap-2 transition-all hover:scale-[1.02]"
+              >
+                <a href="#installation">
+                  <span>Get Started Now</span>
+                  <ArrowRight size={16} />
+                </a>
+              </Button>
+
+              <Button 
+                asChild 
+                variant="outline" 
+                className="bg-[#14141a] hover:bg-[#1f1f28] text-slate-200 border-[#252530] font-semibold text-sm px-6 py-6 rounded-md flex items-center gap-2 transition-all"
+              >
+                <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer">
+                  <Github size={16} />
+                  <span>GitHub Repository</span>
+                </a>
+              </Button>
+            </div>
+
+            {/* Key Metrics */}
+            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-[#1f1f26]">
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-white">100%</div>
+                <div className="text-xs text-slate-400 font-mono mt-1">Open Source</div>
+              </div>
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-[#e04922]">&lt; 1ms</div>
+                <div className="text-xs text-slate-400 font-mono mt-1">Core Latency</div>
+              </div>
+              <div>
+                <div className="text-2xl sm:text-3xl font-extrabold text-white">24/7</div>
+                <div className="text-xs text-slate-400 font-mono mt-1">Continuous Uptime</div>
               </div>
             </div>
+
           </div>
-          
-          {/* Main Heading */}
-          <h1 className="heading-xl text-gradient mb-8 slide-up delay-100">
-            Next-Generation
-            <span className="block text-gradient-primary mt-2">Network Monitoring</span>
-          </h1>
-          
-          {/* Subtitle */}
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed slide-up delay-200">
-            Built with <span className="text-gradient-primary font-semibold">Rust</span> for ultimate performance. 
-            Monitor your network infrastructure with real-time insights, beautiful dashboards, and enterprise-grade reliability.
-          </p>
-          
-          {/* Feature Highlights */}
-          <div className="flex flex-wrap justify-center gap-6 mb-12 slide-up delay-300">
-            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-              <Activity size={18} className="text-green-500" />
-              <span className="font-medium">Real-time Monitoring</span>
-            </div>
-            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-              <Server size={18} className="text-blue-500" />
-              <span className="font-medium">Multi-Protocol Support</span>
-            </div>
-            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-              <Zap size={18} className="text-yellow-500" />
-              <span className="font-medium">Lightning Fast</span>
-            </div>
-          </div>
-          
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center scale-in delay-400">
-            <Button 
-              asChild 
-              className="btn-modern btn-primary group"
-            >
-              <a href="#installation" className="flex items-center gap-2">
-                Get Started Free
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </Button>
-            
-            <Button 
-              asChild 
-              variant="outline" 
-              className="btn-modern btn-secondary group"
-            >
-              <a href="#demo" className="flex items-center gap-2">
-                <Activity className="w-4 h-4" />
-                Live Demo
-              </a>
-            </Button>
-            
-            <Button 
-              asChild 
-              variant="ghost" 
-              className="btn-modern btn-ghost group"
-            >
-              <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <Download className="w-4 h-4 group-hover:rotate-12 transition-transform" />
-                GitHub
-                <ExternalLink className="w-3 h-3 opacity-60 group-hover:opacity-100" />
-              </a>
-            </Button>
-          </div>
-          
-          {/* Stats */}
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 slide-up delay-500">
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-gradient-primary mb-1">100%</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Open Source</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-gradient-primary mb-1">0ms</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Setup Time</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-gradient-primary mb-1">24/7</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Monitoring</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-gradient-primary mb-1">∞</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Scalability</div>
+
+          {/* RIGHT COLUMN: Sleek Device Interface Mockup */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="w-full max-w-md rounded-2xl bg-[#111115] border border-[#1f1f26] shadow-2xl p-5 relative overflow-hidden group">
+              
+              {/* Device Window Header */}
+              <div className="flex items-center justify-between border-b border-[#1f1f26] pb-3 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                  <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                </div>
+                <span className="text-[11px] font-mono text-slate-400">rust-ping-engine v1.0.0</span>
+              </div>
+
+              {/* Status Display Card */}
+              <div className="space-y-3 font-mono text-xs">
+                
+                {/* Active Sensor Item 1 */}
+                <div className="p-3.5 rounded-lg bg-[#181820] border border-[#252532] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                    <div>
+                      <div className="text-white font-semibold">Google DNS (8.8.8.8)</div>
+                      <div className="text-[10px] text-slate-400">Sensors: PING, HTTP, HTTPS</div>
+                    </div>
+                  </div>
+                  <span className="text-emerald-400 font-bold">12ms OK</span>
+                </div>
+
+                {/* Active Sensor Item 2 */}
+                <div className="p-3.5 rounded-lg bg-[#181820] border border-[#252532] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                    <div>
+                      <div className="text-white font-semibold">Cloudflare DNS (1.1.1.1)</div>
+                      <div className="text-[10px] text-slate-400">Sensors: PING, HTTP</div>
+                    </div>
+                  </div>
+                  <span className="text-emerald-400 font-bold">8ms OK</span>
+                </div>
+
+                {/* Active Sensor Item 3 */}
+                <div className="p-3.5 rounded-lg bg-[#181820] border border-[#252532] flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#e04922]"></div>
+                    <div>
+                      <div className="text-white font-semibold">Gateway Switch (192.168.1.1)</div>
+                      <div className="text-[10px] text-slate-400">Sensors: PING</div>
+                    </div>
+                  </div>
+                  <span className="text-[#e04922] font-bold">RETRYING</span>
+                </div>
+
+                {/* Console Log Preview */}
+                <div className="p-3 rounded-lg bg-[#0a0a0e] border border-[#1f1f26] text-[11px] text-slate-400 space-y-1">
+                  <div className="text-slate-500">// Real-time event stream</div>
+                  <div className="text-emerald-400">[16:42:01] 8.8.8.8 -&gt; ICMP Echo Response 11.2ms</div>
+                  <div className="text-emerald-400">[16:42:01] 1.1.1.1 -&gt; HTTP 200 OK</div>
+                  <div className="text-[#e04922]">[16:42:02] Log Export -&gt; CSV Generated</div>
+                </div>
+
+              </div>
+
+              {/* Glowing Bottom Border */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#e04922] to-transparent"></div>
             </div>
           </div>
-        </div>
-      </div>
-      
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 fade-in delay-600">
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-sm text-gray-500 dark:text-gray-400">Scroll to explore</span>
-          <div className="w-6 h-10 border-2 border-gray-300 dark:border-gray-600 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-primary rounded-full mt-2 animate-bounce"></div>
-          </div>
+
         </div>
       </div>
     </section>

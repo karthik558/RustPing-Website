@@ -19,16 +19,39 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        brand: {
+          accent: "#e04922",
+          hover: "#c83b16",
+          rust: "#e04922",
+          dark: "#a32e0e",
+        },
+        obsidian: {
+          DEFAULT: "#08080a",
+          card: "#111115",
+          header: "#14141a",
+          border: "#1f1f26",
+          hover: "#252530",
+        },
+        darkCanvas: "#08080a",
+        darkSurface: "#111115",
+        darkHeader: "#14141a",
+        darkInput: "#191922",
+        darkBorder: "#1f1f26",
         rustred: {
-          DEFAULT: "#E43A24",
-          light: "#FF5A44",
-          dark: "#C32D1A",
+          DEFAULT: "#e04922",
+          light: "#f25d38",
+          dark: "#a32e0e",
         },
         navy: {
           DEFAULT: "#0F1629",
@@ -47,7 +70,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          blue: "#2e67d3",
+          rust: "#d9531e",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

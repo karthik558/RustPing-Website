@@ -1,14 +1,11 @@
-
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Moon, Sun, Github, ExternalLink } from 'lucide-react';
+import { Menu, X, Github, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [logoSrc, setLogoSrc] = useState('/favicon.png');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,14 +18,7 @@ const Navbar = () => {
       }
     };
 
-    // Check system preference for dark mode
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setIsDarkMode(prefersDark);
-    setLogoSrc(prefersDark ? '/favicon.png' : '/favicon-light.png');
-    
-    if (prefersDark) {
-      document.documentElement.classList.add('dark');
-    }
+    document.documentElement.classList.add('dark');
 
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('keydown', handleKeyDown);
@@ -39,34 +29,30 @@ const Navbar = () => {
     };
   }, []);
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-    setLogoSrc(!isDarkMode ? '/favicon.png' : '/favicon-light.png');
-  };
-
   const navLinks = [
     { name: 'Features', href: '#features' },
-    { name: 'Demo', href: '#demo' },
+    { name: 'Screenshots', href: '#screenshots' },
     { name: 'Roadmap', href: '#roadmap' },
     { name: 'Installation', href: '#installation' },
   ];
 
   return (
-    <nav className={cn("nav-glass transition-all duration-500", isScrolled && "shadow-xl")}>
+    <nav className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+      isScrolled 
+        ? "bg-[#08080a]/95 backdrop-blur-md border-[#1f1f26] shadow-2xl py-2.5" 
+        : "bg-[#08080a]/85 backdrop-blur-sm border-[#1f1f26]/60 py-3.5"
+    )}>
       <div className="section-container">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <a href="#" className="flex items-center space-x-3 group">
-            <div className="relative w-10 h-10 rounded-2xl bg-gradient-to-br from-primary/10 to-blue-500/10 flex items-center justify-center overflow-hidden group-hover:scale-110 transition-all duration-300">
-              <img 
-                src={logoSrc}
-                alt="RustPing Logo" 
-                className="w-6 h-6 object-contain transition-transform duration-300" 
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-            <span className="text-xl font-bold text-gradient">RustPing</span>
+        <div className="flex justify-between items-center h-12">
+          
+          {/* Brand Logo - Enlarged transparent logo without container box or border */}
+          <a href="#" className="flex items-center group">
+            <img 
+              src="/logo_rust.png"
+              alt="RustPing" 
+              className="h-11 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            />
           </a>
 
           {/* Desktop Navigation */}
@@ -75,7 +61,7 @@ const Navbar = () => {
               <a 
                 key={link.name}
                 href={link.href} 
-                className="nav-link"
+                className="px-4 py-1.5 text-xs font-semibold text-slate-300 hover:text-[#e04922] hover:bg-[#16161c] rounded-md transition-all font-mono"
               >
                 {link.name}
               </a>
@@ -85,91 +71,71 @@ const Navbar = () => {
           {/* Right Side Actions */}
           <div className="hidden md:flex items-center space-x-3">
             <Button 
-              variant="ghost"
-              size="sm"
-              onClick={toggleDarkMode} 
-              className="w-10 h-10 rounded-xl hover:bg-primary/10 transition-colors duration-300"
-            >
-              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </Button>
-            
-            <Button 
               variant="outline" 
               size="sm" 
-              className="btn-modern btn-ghost"
+              className="bg-[#14141a] hover:bg-[#1f1f28] text-slate-200 border-[#252530] text-xs font-semibold px-4 py-2 rounded-md transition-all font-mono"
               asChild
             >
-              <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                <Github size={16} />
-                <span className="hide-mobile">GitHub</span>
-                <ExternalLink size={12} className="opacity-60" />
+              <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
+                <Github size={14} />
+                <span>GitHub</span>
+                <ExternalLink size={11} className="opacity-60" />
               </a>
             </Button>
             
             <Button 
-              className="btn-modern btn-primary"
+              size="sm"
+              className="bg-[#e04922] hover:bg-[#c83b16] text-white text-xs font-semibold px-5 py-2 rounded-md shadow-md shadow-[#e04922]/25 transition-all hover:scale-[1.02] font-mono"
               asChild
             >
-              <a href="#installation">Get Started</a>
+              <a href="#installation">Deploy Now</a>
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-2">
-            <Button 
-              variant="ghost"
-              size="sm"
-              onClick={toggleDarkMode} 
-              className="w-10 h-10 rounded-xl"
-            >
-              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </Button>
-            
-            <Button 
-              variant="ghost"
-              size="sm"
+          {/* Mobile Menu Toggle Button */}
+          <div className="md:hidden flex items-center">
+            <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="w-10 h-10 rounded-xl"
+              className="p-2 text-slate-300 hover:text-white rounded-md bg-[#14141a] border border-[#252530] focus:outline-none"
+              aria-label="Toggle Navigation Menu"
             >
-              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </Button>
+              {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Drawer Menu */}
         {isMenuOpen && (
-          <div className="md:hidden">
-            <div className="glass-card mt-4 p-6 space-y-4">
-              {navLinks.map((link) => (
-                <a 
-                  key={link.name}
-                  href={link.href} 
-                  className="block text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.name}
+          <div className="md:hidden mt-3 p-4 bg-[#111115] border border-[#1f1f26] rounded-xl shadow-2xl space-y-3">
+            {navLinks.map((link) => (
+              <a 
+                key={link.name}
+                href={link.href} 
+                className="block px-3 py-2 text-sm font-medium text-slate-200 hover:text-[#e04922] hover:bg-[#16161c] rounded-md transition-colors font-mono"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.name}
+              </a>
+            ))}
+            <div className="pt-3 border-t border-[#1f1f26] flex flex-col gap-2">
+              <Button 
+                variant="outline" 
+                className="w-full bg-[#14141a] border-[#252530] text-slate-200 justify-center text-xs py-2.5 rounded-md font-mono"
+                asChild
+              >
+                <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                  <Github size={14} />
+                  <span>GitHub Repository</span>
+                  <ExternalLink size={11} className="opacity-60" />
                 </a>
-              ))}
-              <div className="pt-4 border-t border-gray-200 dark:border-gray-700 space-y-3">
-                <Button 
-                  variant="outline" 
-                  className="w-full btn-modern btn-ghost justify-center"
-                  asChild
-                >
-                  <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                    <Github size={16} />
-                    View on GitHub
-                    <ExternalLink size={12} className="opacity-60" />
-                  </a>
-                </Button>
-                
-                <Button 
-                  className="w-full btn-modern btn-primary justify-center"
-                  asChild
-                >
-                  <a href="#installation">Get Started</a>
-                </Button>
-              </div>
+              </Button>
+              
+              <Button 
+                className="w-full bg-[#e04922] hover:bg-[#c83b16] text-white justify-center text-xs py-2.5 font-semibold shadow-md shadow-[#e04922]/25 rounded-md font-mono"
+                asChild
+              >
+                <a href="#installation" onClick={() => setIsMenuOpen(false)}>Deploy Now</a>
+              </Button>
             </div>
           </div>
         )}

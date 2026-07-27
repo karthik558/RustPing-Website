@@ -1,340 +1,483 @@
-import React from 'react';
-import { RefreshCw, Filter, X, Printer, Fingerprint, Network, Database, Search, Download, Settings, LogOut, Mail, Activity } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { 
+  Search, 
+  SlidersHorizontal, 
+  X, 
+  FileText, 
+  AlertTriangle, 
+  Layers, 
+  KeyRound, 
+  LogOut, 
+  Settings, 
+  Download, 
+  Calendar, 
+  ArrowUpDown,
+  Activity,
+  CheckCircle,
+  HelpCircle,
+  Database
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PieChart, Pie, ResponsiveContainer, Cell, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { toast } from 'sonner';
 
-const deviceData = [
-  { id: 1, name: 'MATRIX (NVR)', ip: '192.168.132.200', sensors: 'Ping', pingStatus: 'fail', bandwidth: '-', httpStatus: 'unknown' },
-  { id: 2, name: 'HP MFP M438-NDA', ip: '192.168.132.236', sensors: 'Ping', pingStatus: 'unknown', bandwidth: '-', httpStatus: 'unknown' },
-  { id: 3, name: 'FILE_ROOM', ip: '192.168.132.227', sensors: 'Ping', pingStatus: 'unknown', bandwidth: '-', httpStatus: 'unknown' },
-  { id: 4, name: 'Cisco Switch (Basement Switch-1-Data)', ip: '192.168.132.205', sensors: 'Ping', pingStatus: 'unknown', bandwidth: '-', httpStatus: 'unknown' },
-  { id: 5, name: 'Cisco Switch (Basement Switch-2-Data)', ip: '192.168.132.206', sensors: 'Ping', pingStatus: 'unknown', bandwidth: '-', httpStatus: 'unknown' },
-  { id: 6, name: 'MY DOMAIN', ip: '8.8.8.8', sensors: 'HTTP', pingStatus: 'ok', bandwidth: '221.56', httpStatus: 'ok' }
+interface DeviceItem {
+  id: number;
+  name: string;
+  ip: string;
+  category: string;
+  sensors: string[];
+  pingStatus: 'ok' | 'unknown' | 'fail';
+  bandwidth: number | null;
+  httpStatus: 'ok' | 'unknown' | 'fail';
+}
+
+const initialDevices: DeviceItem[] = [
+  { id: 1, name: 'Google DNS', ip: '8.8.8.8', category: 'DNS Server', sensors: ['Ping', 'Http', 'Https'], pingStatus: 'ok', bandwidth: 453.90, httpStatus: 'ok' },
+  { id: 2, name: 'Cloudflare DNS', ip: '1.1.1.1', category: 'DNS Server', sensors: ['Ping', 'Https', 'Http'], pingStatus: 'ok', bandwidth: 360.62, httpStatus: 'ok' },
+  { id: 3, name: 'Antivirus Server', ip: '8.8.4.4', category: 'Antivirus Server', sensors: ['Ping', 'Http', 'Https'], pingStatus: 'ok', bandwidth: 119.57, httpStatus: 'ok' },
+  { id: 4, name: 'Google DNS [1]', ip: '4.2.2.2', category: 'DNS Server', sensors: ['Ping', 'Http'], pingStatus: 'ok', bandwidth: 599.76, httpStatus: 'ok' },
+  { id: 5, name: 'Adguard Server [1]', ip: '94.140.15.16', category: 'DNS Server', sensors: ['Ping', 'Http'], pingStatus: 'ok', bandwidth: 173.80, httpStatus: 'ok' },
+  { id: 6, name: 'Adguard Server [2]', ip: '94.140.14.15', category: 'DNS Server', sensors: ['Ping', 'Http'], pingStatus: 'ok', bandwidth: 337.89, httpStatus: 'ok' },
+  { id: 7, name: 'Cisco Virtual Controller', ip: '8.8.8.8', category: 'Access Point', sensors: ['Ping'], pingStatus: 'unknown', bandwidth: null, httpStatus: 'unknown' },
+  { id: 8, name: 'NAS', ip: '8.8.4.4', category: 'Storage Server', sensors: ['Ping'], pingStatus: 'unknown', bandwidth: null, httpStatus: 'unknown' },
+  { id: 9, name: 'CCTV Server', ip: '8.8.8.8', category: 'CCTV', sensors: ['Ping'], pingStatus: 'unknown', bandwidth: null, httpStatus: 'unknown' },
 ];
 
-const categoryData = [
-  { name: 'Critical Device', up: 0, down: 1, unknown: 1 },
-  { name: 'Printers', up: 0, down: 0, unknown: 1 },
-  { name: 'Biometrics', up: 0, down: 0, unknown: 1 },
-  { name: 'Switch', up: 0, down: 1, unknown: 2 },
-  { name: 'DOMAIN', up: 1, down: 0, unknown: 0 }
+const categoryTabs = [
+  'All Devices',
+  'DNS Server',
+  'Antivirus Server',
+  'Access Point',
+  'Storage Server',
+  'CCTV'
 ];
 
-const bandwidthData = [
-  { name: 'MY DOMAIN', value: 221.56 },
-  // Other devices have no bandwidth data
+const sensorPieData = [
+  { name: 'Ping', value: 9, color: '#d9531e' },
+  { name: 'Http', value: 6, color: '#10b981' },
+  { name: 'Https', value: 3, color: '#f59e0b' },
 ];
-
-const sensorData = [
-  { name: 'Ping', value: 5, color: '#2e67d3' },
-  { name: 'HTTP', value: 1, color: '#4ade80' },
-];
-
-const COLORS = ['#2e67d3', '#4ade80', '#f87171', '#fbbf24'];
 
 const DashboardDemo = () => {
+  const [activeCategory, setActiveCategory] = useState('All Devices');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [exportFormat, setExportFormat] = useState('TXT');
+  const [deviceIpInput, setDeviceIpInput] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  // Filter devices
+  const filteredDevices = useMemo(() => {
+    return initialDevices.filter(device => {
+      const matchesCategory = activeCategory === 'All Devices' || device.category === activeCategory;
+      const matchesSearch = searchQuery.trim() === '' || 
+        device.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        device.ip.includes(searchQuery);
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeCategory, searchQuery]);
+
+  // Bar chart bandwidth data
+  const chartBandwidthData = useMemo(() => {
+    return initialDevices.map(d => ({
+      name: d.name,
+      bandwidth: d.bandwidth || 0
+    }));
+  }, []);
+
+  const handleGenerateLog = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success(`Log Export Generated (${exportFormat})`, {
+      description: `Export file prepared for ${deviceIpInput || 'all selected devices'}.`
+    });
+  };
+
   return (
-    <section className="py-12 bg-gray-50 dark:bg-gray-800/20">
-      <div className="section-container">
-        <div className="mb-6 text-center px-4">
-          <h2 className="text-xl md:text-2xl font-bold">Interactive Dashboard Demo</h2>
-          <p className="text-foreground/70 mt-2 text-sm md:text-base">Experience the RustPing interface</p>
+    <div className="w-full">
+      {/* Main Dashboard Window Container */}
+      <div className="rounded-xl border border-slate-800 bg-[#0d111a] shadow-2xl overflow-hidden font-sans text-slate-200">
+        
+        {/* TOP NAVBAR (Reference Image Layout) */}
+        <div className="bg-[#121824] border-b border-slate-800 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+          
+          {/* Logo & Brand - Directly rendered without box/border */}
+          <div className="flex items-center gap-2">
+            <img src="/logo_rust.png" alt="RustPing" className="h-6 w-auto object-contain" />
+            <span className="font-bold text-base tracking-tight text-white">RustPing</span>
+          </div>
+
+          {/* Search Box & Controls */}
+          <div className="flex flex-wrap items-center gap-2 flex-1 max-w-xl mx-auto">
+            <div className="relative flex-1 min-w-[200px]">
+              <input
+                type="text"
+                placeholder="Filter by name/IP..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-[#182030] border border-slate-700/80 rounded px-3 py-1.5 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+              />
+            </div>
+            
+            <button 
+              type="button" 
+              className="px-2.5 py-1.5 bg-[#182030] hover:bg-slate-700/60 border border-slate-700 rounded text-xs text-slate-300 flex items-center gap-1.5 transition-colors"
+            >
+              <SlidersHorizontal size={13} />
+            </button>
+            
+            {searchQuery && (
+              <button 
+                type="button" 
+                onClick={() => setSearchQuery('')}
+                className="px-2.5 py-1.5 bg-[#182030] hover:bg-slate-700/60 border border-slate-700 rounded text-xs text-slate-300 flex items-center gap-1 transition-colors"
+              >
+                <X size={13} />
+              </button>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <button 
+                type="button"
+                onClick={() => toast.info('Live logs active')}
+                className="px-2.5 py-1.5 bg-[#1d332d] border border-emerald-500/30 hover:bg-[#23423b] text-emerald-400 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
+              >
+                <FileText size={13} />
+                <span>Live Logs</span>
+              </button>
+
+              <button 
+                type="button"
+                onClick={() => toast.warning('Showing failed logs')}
+                className="px-2.5 py-1.5 bg-[#331d24] border border-red-500/30 hover:bg-[#42232d] text-red-400 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
+              >
+                <AlertTriangle size={13} />
+                <span>Failed Logs</span>
+              </button>
+
+              <button 
+                type="button"
+                onClick={() => toast.success('Manage devices modal opened')}
+                className="px-2.5 py-1.5 bg-[#d9531e] hover:bg-[#c44715] text-white rounded text-xs font-medium flex items-center gap-1.5 transition-colors shadow-sm"
+              >
+                <Layers size={13} />
+                <span className="hidden sm:inline">Manage Devices</span>
+              </button>
+
+              <button 
+                type="button"
+                onClick={() => toast.info('Password reset request initiated')}
+                className="px-2.5 py-1.5 bg-[#182030] hover:bg-slate-700 border border-slate-700 text-slate-200 rounded text-xs font-medium flex items-center gap-1.5 transition-colors"
+              >
+                <KeyRound size={13} />
+                <span className="hidden md:inline">Reset Password</span>
+              </button>
+
+              <button 
+                type="button"
+                onClick={() => toast.error('Logged out successfully')}
+                className="px-2.5 py-1.5 bg-red-600/90 hover:bg-red-600 text-white rounded text-xs font-medium flex items-center gap-1 transition-colors"
+              >
+                <LogOut size={13} />
+                <span className="hidden sm:inline">Logout</span>
+              </button>
+
+              <button 
+                type="button"
+                onClick={() => toast.info('Settings panel')}
+                className="p-1.5 text-slate-400 hover:text-slate-200 transition-colors"
+              >
+                <Settings size={15} />
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="dashboard-card dark:bg-gray-900 overflow-hidden p-2 md:p-4 shadow-md border border-gray-200 dark:border-gray-700 hover:border-primary/30 dark:hover:border-primary/30 transition-colors duration-300 mx-4 md:mx-0">
-          {/* Animated network lines at the top */}
-          <div className="relative h-1 w-full mb-4 bg-gray-100 dark:bg-gray-800 overflow-hidden">
-            <div className="absolute inset-0 flex">
-              <div className="h-full w-1/3 bg-primary/30 animate-pulse-slow"></div>
-              <div className="h-full w-1/5 bg-green-500/30 animate-pulse-slow" style={{animationDelay: '0.5s'}}></div>
-              <div className="h-full w-1/4 bg-yellow-500/30 animate-pulse-slow" style={{animationDelay: '1s'}}></div>
-              <div className="h-full w-1/6 bg-red-500/30 animate-pulse-slow" style={{animationDelay: '1.5s'}}></div>
-              <div className="h-full w-1/5 bg-primary/30 animate-pulse-slow" style={{animationDelay: '2s'}}></div>
-            </div>
-            <div className="absolute top-0 left-0 h-full w-10 bg-gradient-to-r from-white via-white/0 to-transparent dark:from-gray-900 dark:via-gray-900/0 animate-pulse-slow"></div>
-            <div className="absolute top-0 right-0 h-full w-10 bg-gradient-to-l from-white via-white/0 to-transparent dark:from-gray-900 dark:via-gray-900/0 animate-pulse-slow" style={{animationDelay: '1s'}}></div>
-          </div>
-          
-          {/* Toolbar */}
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center mb-4 gap-3">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 overflow-x-auto custom-scrollbar">
-              <div className="relative w-full sm:w-auto min-w-0">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <input
-                  type="text"
-                  placeholder="Filter by name/IP..."
-                  className="pl-9 pr-4 py-2 text-sm rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 w-full sm:w-64 focus:border-primary focus:ring-1 focus:ring-primary"
-                />
-              </div>
-              <div className="flex gap-2 w-full sm:w-auto">
-                <Button variant="outline" size="sm" className="text-xs sm:text-sm flex-1 sm:flex-none">
-                  <Filter className="h-4 w-4 sm:mr-1" />
-                  <span className="hidden sm:inline">Filter</span>
-                </Button>
-                <Button variant="outline" size="sm" className="text-xs sm:text-sm flex-1 sm:flex-none">
-                  <X className="h-4 w-4 sm:mr-1" />
-                  <span className="hidden sm:inline">Clear</span>
-                </Button>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <Button variant="outline" size="sm" className="text-xs sm:text-sm relative group">
-                <RefreshCw className="h-4 w-4 sm:mr-1 group-hover:animate-spin" />
-                <span className="hidden sm:inline">Refresh</span>
-                <span className="absolute -top-1 -right-1 h-2 w-2 bg-green-500 rounded-full"></span>
-              </Button>
-              <Button variant="outline" size="sm" className="text-xs sm:text-sm">
-                <Download className="h-4 w-4 sm:mr-1" />
-                <span className="hidden sm:inline">Logs</span>
-              </Button>
-              <Button variant="default" size="sm" className="text-xs sm:text-sm bg-primary hover:bg-primary/90 hidden md:flex">
-                <Settings className="h-4 w-4 mr-1" />
-                <span>Manage Devices</span>
-              </Button>
-              <Button variant="outline" size="sm" className="text-xs sm:text-sm hidden lg:flex">
-                <Mail className="h-4 w-4 mr-1" />
-                <span>Email Alerts</span>
-              </Button>
-              <div className="flex items-center gap-1">
-                <div className="h-8 w-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-medium text-sm relative overflow-hidden">
-                  <span className="relative z-10">AD</span>
-                  <div className="absolute inset-0 bg-gradient-to-tr from-orange-600 to-orange-400 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <Button variant="ghost" size="sm" className="text-xs sm:text-sm">
-                  <LogOut className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
+        {/* CATEGORY FILTER TABS */}
+        <div className="bg-[#121824] px-4 pt-3 pb-3 border-b border-slate-800 flex items-center gap-2 overflow-x-auto scrollbar-none">
+          {categoryTabs.map((tab) => {
+            const isActive = activeCategory === tab;
+            return (
+              <button
+                key={tab}
+                onClick={() => setActiveCategory(tab)}
+                className={`px-3.5 py-1.5 rounded-md text-xs font-medium whitespace-nowrap transition-all ${
+                  isActive 
+                    ? 'bg-[#d9531e] text-white font-semibold shadow-md shadow-[#d9531e]/20' 
+                    : 'bg-[#182030] text-slate-300 hover:bg-[#1f2a3f] border border-slate-800'
+                }`}
+              >
+                {tab}
+              </button>
+            );
+          })}
+        </div>
 
-          {/* Device category tabs */}
-          <div className="flex mb-4 gap-1 sm:gap-2 border-b border-gray-200 dark:border-gray-700 overflow-x-auto custom-scrollbar">
-            <button className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white bg-primary rounded-t-md focus:outline-none relative whitespace-nowrap">
-              All Devices
-              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-blue"></div>
-            </button>
-            <button className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md focus:outline-none transition-colors whitespace-nowrap">
-              Critical Device
-            </button>
-            <button className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md focus:outline-none transition-colors whitespace-nowrap">
-              <Printer className="h-3.5 w-3.5 inline-block mr-1" />
-              Printers
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md focus:outline-none transition-colors">
-              <Fingerprint className="h-3.5 w-3.5 inline-block mr-1" />
-              Biometrics
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md focus:outline-none transition-colors">
-              <Network className="h-3.5 w-3.5 inline-block mr-1" />
-              Switch
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-t-md focus:outline-none transition-colors">
-              <Database className="h-3.5 w-3.5 inline-block mr-1" />
-              DOMAIN
-            </button>
-          </div>
-
-          {/* Devices table */}
-          <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 custom-scrollbar">
-            <Table className="w-full min-w-[600px]">
+        {/* DEVICES TABLE */}
+        <div className="p-4 overflow-x-auto">
+          <div className="rounded border border-slate-800 bg-[#121824] overflow-hidden">
+            <Table className="w-full text-xs">
               <TableHeader>
-                <TableRow className="bg-gray-50 dark:bg-gray-800">
-                  <TableHead className="w-[200px] sm:w-[250px] text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2">Device Name</TableHead>
-                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2">IP Address</TableHead>
-                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2">Sensors</TableHead>
-                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2">Ping Status</TableHead>
-                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2 hidden sm:table-cell">Bandwidth</TableHead>
-                  <TableHead className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 px-2 sm:px-4 py-2 hidden md:table-cell">HTTP Status</TableHead>
+                <TableRow className="border-b border-slate-800 bg-[#161e2e] hover:bg-[#161e2e]">
+                  <TableHead className="text-slate-300 font-semibold py-2.5 px-3">
+                    <div className="flex items-center gap-1 cursor-pointer">
+                      <span>Device Name</span>
+                      <ArrowUpDown size={12} className="text-slate-500" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-slate-300 font-semibold py-2.5 px-3">
+                    <div className="flex items-center gap-1 cursor-pointer">
+                      <span>IP Address</span>
+                      <ArrowUpDown size={12} className="text-slate-500" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-slate-300 font-semibold py-2.5 px-3">Sensors Used</TableHead>
+                  <TableHead className="text-slate-300 font-semibold py-2.5 px-3">
+                    <div className="flex items-center gap-1 cursor-pointer">
+                      <span>Ping Status</span>
+                      <ArrowUpDown size={12} className="text-slate-500" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-slate-300 font-semibold py-2.5 px-3">
+                    <div className="flex items-center gap-1 cursor-pointer">
+                      <span>Bandwidth (Mbps)</span>
+                      <ArrowUpDown size={12} className="text-slate-500" />
+                    </div>
+                  </TableHead>
+                  <TableHead className="text-slate-300 font-semibold py-2.5 px-3">
+                    <div className="flex items-center gap-1 cursor-pointer">
+                      <span>HTTP Status</span>
+                      <ArrowUpDown size={12} className="text-slate-500" />
+                    </div>
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {deviceData.map((device) => (
-                  <TableRow key={device.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer group">
-                    <TableCell className="font-medium group-hover:text-primary transition-colors px-2 sm:px-4 py-2 text-xs sm:text-sm">
-                      <div className="truncate max-w-[150px] sm:max-w-none" title={device.name}>
+                {filteredDevices.length > 0 ? (
+                  filteredDevices.map((device) => (
+                    <TableRow 
+                      key={device.id} 
+                      className="border-b border-slate-800/60 hover:bg-[#1a2334] transition-colors"
+                    >
+                      <TableCell className="font-medium text-slate-200 py-2.5 px-3">
                         {device.name}
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-mono">{device.ip}</TableCell>
-                    <TableCell className="px-2 sm:px-4 py-2">
-                      <span className="px-1 sm:px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded">
-                        {device.sensors}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-2 sm:px-4 py-2">
-                      <div className="flex items-center">
-                        <span className={`inline-block w-2 h-2 rounded-full mr-1 sm:mr-2 ${
-                          device.pingStatus === 'ok' ? 'bg-green-500' : 
-                          device.pingStatus === 'fail' ? 'bg-red-500' : 'bg-yellow-500'
-                        } ${device.pingStatus === 'ok' ? 'animate-pulse-slow' : ''}`}></span>
-                        <span className="capitalize text-xs sm:text-sm">{device.pingStatus === 'unknown' ? 'Unknown' : device.pingStatus === 'ok' ? 'OK' : 'Fail'}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-2 sm:px-4 py-2 text-xs sm:text-sm hidden sm:table-cell">{device.bandwidth}</TableCell>
-                    <TableCell className="px-2 sm:px-4 py-2 hidden md:table-cell">
-                      <div className="flex items-center">
-                        <span className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                          device.httpStatus === 'ok' ? 'bg-green-500' : 
-                          device.httpStatus === 'fail' ? 'bg-red-500' : 'bg-yellow-500'
-                        } ${device.httpStatus === 'ok' ? 'animate-pulse-slow' : ''}`}></span>
-                        <span className="capitalize text-xs sm:text-sm">{device.httpStatus === 'unknown' ? 'Unknown' : device.httpStatus === 'ok' ? 'OK' : 'Fail'}</span>
-                      </div>
+                      </TableCell>
+                      <TableCell className="font-mono text-slate-300 py-2.5 px-3">
+                        {device.ip}
+                      </TableCell>
+                      <TableCell className="py-2.5 px-3">
+                        <div className="flex items-center gap-1">
+                          {device.sensors.map((sensor) => (
+                            <span 
+                              key={sensor} 
+                              className="px-2 py-0.5 rounded text-[11px] font-medium bg-[#1d3557] text-blue-300 border border-blue-500/20"
+                            >
+                              {sensor}
+                            </span>
+                          ))}
+                        </div>
+                      </TableCell>
+                      <TableCell className="py-2.5 px-3">
+                        <div className="flex items-center gap-1.5 font-medium">
+                          {device.pingStatus === 'ok' ? (
+                            <>
+                              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                              <span className="text-emerald-400">OK</span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                              <span className="text-amber-400">Unknown</span>
+                            </>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-mono text-slate-300 py-2.5 px-3">
+                        {device.bandwidth ? device.bandwidth.toFixed(2) : '-'}
+                      </TableCell>
+                      <TableCell className="py-2.5 px-3">
+                        <div className="flex items-center gap-1.5 font-medium">
+                          {device.httpStatus === 'ok' ? (
+                            <>
+                              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                              <span className="text-emerald-400">OK</span>
+                            </>
+                          ) : (
+                            <>
+                              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+                              <span className="text-amber-400">Unknown</span>
+                            </>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={6} className="text-center py-8 text-slate-400">
+                      No devices match your search criteria.
                     </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </div>
+        </div>
 
-          {/* Charts section with fixed dark mode text */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            {/* Bandwidth Usage */}
-            <Card className="border-gray-200 dark:border-gray-700 hover:border-primary/30 dark:hover:border-primary/30 transition-colors duration-300">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base flex items-center">
-                  <Activity className="h-4 w-4 mr-2 text-primary" />
-                  Bandwidth Usage
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[200px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={bandwidthData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.2} />
-                      <XAxis 
-                        dataKey="name" 
-                        tick={{ fontSize: 10, fill: 'var(--foreground)' }} 
-                        angle={-45} 
-                        textAnchor="end" 
-                        height={60} 
-                      />
-                      <YAxis 
-                        tick={{ fontSize: 10, fill: 'var(--foreground)' }} 
-                      />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: 'var(--background)', 
-                          color: 'var(--foreground)',
-                          borderRadius: '8px',
-                          border: '1px solid var(--border)',
-                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-                        }}
-                        labelStyle={{ color: 'var(--foreground)' }}
-                      />
-                      <Bar dataKey="value" fill="#2e67d3" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
+        {/* CHARTS GRID (Bandwidth Usage & Sensor Distribution) */}
+        <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          
+          {/* Bandwidth Usage Chart */}
+          <div className="bg-[#121824] border border-slate-800 rounded p-4">
+            <h3 className="text-sm font-semibold text-slate-200 mb-4">Bandwidth Usage</h3>
+            <div className="h-[220px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartBandwidthData} margin={{ top: 10, right: 10, left: -20, bottom: 40 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1f293d" vertical={false} />
+                  <XAxis 
+                    dataKey="name" 
+                    tick={{ fill: '#8491a9', fontSize: 10 }}
+                    angle={-35}
+                    textAnchor="end"
+                    interval={0}
+                  />
+                  <YAxis 
+                    tick={{ fill: '#8491a9', fontSize: 10 }}
+                    domain={[0, 600]}
+                  />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#182030', borderColor: '#2d3748', borderRadius: '4px', fontSize: '12px' }}
+                    itemStyle={{ color: '#60a5fa' }}
+                  />
+                  <Bar dataKey="bandwidth" fill="#64748b" radius={[2, 2, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
 
-            {/* Sensor Distribution - Updated to PIE CHART */}
-            <Card className="border-gray-200 dark:border-gray-700 hover:border-primary/30 dark:hover:border-primary/30 transition-colors duration-300">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base flex items-center">
-                  <Network className="h-4 w-4 mr-2 text-primary" />
-                  Sensor Distribution
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[200px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={sensorData}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                      >
-                        {sensorData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: 'var(--background)', 
-                          color: 'var(--foreground)',
-                          borderRadius: '8px',
-                          border: '1px solid var(--border)',
-                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-                        }}
-                        formatter={(value, name) => [`${value} devices`, name]}
-                        labelStyle={{ color: 'var(--foreground)' }}
-                      />
-                      <Legend 
-                        formatter={(value) => <span style={{ color: 'var(--foreground)' }}>{value}</span>}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Device Category Health */}
-            <Card className="border-gray-200 dark:border-gray-700 hover:border-primary/30 dark:hover:border-primary/30 transition-colors duration-300">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base flex items-center">
-                  <Database className="h-4 w-4 mr-2 text-primary" />
-                  Device Category Health
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[200px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart
-                      data={categoryData}
-                      layout="vertical"
-                      margin={{ left: 80 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.2} />
-                      <XAxis 
-                        type="number" 
-                        tick={{ fontSize: 10, fill: 'var(--foreground)' }} 
-                      />
-                      <YAxis 
-                        dataKey="name" 
-                        type="category" 
-                        tick={{ fontSize: 10, fill: 'var(--foreground)' }} 
-                        width={80} 
-                      />
-                      <Tooltip
-                        contentStyle={{ 
-                          backgroundColor: 'var(--background)', 
-                          color: 'var(--foreground)',
-                          borderRadius: '8px',
-                          border: '1px solid var(--border)',
-                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-                        }}
-                        labelStyle={{ color: 'var(--foreground)' }}
-                      />
-                      <Legend 
-                        formatter={(value) => <span style={{ color: 'var(--foreground)' }}>{value}</span>}
-                      />
-                      <Bar dataKey="up" stackId="a" name="Up" fill="#4ade80" />
-                      <Bar dataKey="down" stackId="a" name="Down" fill="#f87171" />
-                      <Bar dataKey="unknown" stackId="a" name="Unknown" fill="#fbbf24" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Sensor Distribution Chart */}
+          <div className="bg-[#121824] border border-slate-800 rounded p-4 flex flex-col">
+            <h3 className="text-sm font-semibold text-slate-200 mb-2">Sensor Distribution</h3>
+            <div className="h-[220px] flex-1">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={sensorPieData}
+                    cx="50%"
+                    cy="45%"
+                    innerRadius={0}
+                    outerRadius={70}
+                    dataKey="value"
+                  >
+                    {sensorPieData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: '#182030', borderColor: '#2d3748', borderRadius: '4px', fontSize: '12px' }}
+                  />
+                  <Legend 
+                    verticalAlign="bottom" 
+                    height={36} 
+                    iconType="rect"
+                    formatter={(value) => <span className="text-xs text-slate-300 font-medium">{value}</span>}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
           </div>
         </div>
-        
-        <div className="mt-8 text-center">
-          <Button variant="default" className="shadow-md bg-primary hover:bg-primary/90 transition-all transform hover:scale-105">
-            Try RustPing Today
-          </Button>
-          <p className="mt-3 text-sm text-foreground/70">Monitor your network devices in real-time with our powerful dashboard</p>
+
+        {/* LOG EXPORT FORM SECTION */}
+        <div className="p-4 border-t border-slate-800 bg-[#121824]">
+          <div className="border border-slate-800 bg-[#0d111a] rounded p-4">
+            <h3 className="text-sm font-semibold text-slate-200 mb-3">Generate Log Export</h3>
+            
+            <form onSubmit={handleGenerateLog} className="space-y-3">
+              <div>
+                <label className="block text-xs font-medium text-slate-300 mb-1">
+                  Device Names or IP Addresses (comma-separated)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g., Device1, 192.168.0.100"
+                  value={deviceIpInput}
+                  onChange={(e) => setDeviceIpInput(e.target.value)}
+                  className="w-full bg-[#161d2b] border border-slate-700/80 rounded px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">
+                    Start Date
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="dd/mm/yyyy"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="w-full bg-[#161d2b] border border-slate-700/80 rounded px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                    />
+                    <Calendar size={13} className="absolute right-3 top-2.5 text-slate-400" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-slate-300 mb-1">
+                    End Date
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="dd/mm/yyyy"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className="w-full bg-[#161d2b] border border-slate-700/80 rounded px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500"
+                    />
+                    <Calendar size={13} className="absolute right-3 top-2.5 text-slate-400" />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-slate-300 mb-1">
+                  Export Format
+                </label>
+                <select
+                  value={exportFormat}
+                  onChange={(e) => setExportFormat(e.target.value)}
+                  className="w-full bg-[#161d2b] border border-slate-700/80 rounded px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-blue-500"
+                >
+                  <option value="TXT">TXT</option>
+                  <option value="CSV">CSV</option>
+                  <option value="JSON">JSON</option>
+                </select>
+              </div>
+
+              <div className="pt-2">
+                <Button 
+                  type="submit" 
+                  className="bg-[#d9531e] hover:bg-[#c44715] text-white font-medium text-xs px-4 py-2 rounded flex items-center gap-1.5 shadow-sm transition-all"
+                >
+                  <Download size={14} />
+                  <span>Generate Log</span>
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {/* FOOTER BAR INSIDE DASHBOARD PREVIEW */}
+        <div className="bg-[#0b0e16] border-t border-slate-800 px-4 py-2.5 text-center text-[11px] text-slate-500">
+          © Copyright 2025 RustPing. All rights reserved.
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -1,62 +1,73 @@
-
 import React, { useState } from 'react';
-import { Globe, Server, Terminal, Code, FileCode, PackageOpen, Monitor } from 'lucide-react';
+import { Globe, Server, Terminal, Code, FileCode, PackageOpen, Monitor, ArrowRight, Github, ExternalLink } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CopyButton from './CopyButton';
 import { Button } from '@/components/ui/button';
 
 const InstallationGuideWithCopy = () => {
-  const [platform, setPlatform] = useState<'windows' | 'linux' | 'macos'>('linux');
+  const [platform, setPlatform] = useState<'linux' | 'windows' | 'macos'>('linux');
   
   return (
-    <section id="installation" className="py-20 bg-secondary/20">
+    <section id="installation" className="py-24 bg-[#08080a] border-t border-[#1f1f26]">
       <div className="section-container">
-        <div className="text-center mb-12">
-          <span className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4 opacity-0 animate-fade-in">
-            <Terminal size={14} className="text-primary" />
-            Quick Installation
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-3 mb-4 opacity-0 animate-fade-in animate-delay-100">
-            Get Started with RustPing
+        
+        {/* Section Header */}
+        <div className="mb-14 text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#16161c] border border-[#252530] text-[#e04922] text-xs font-mono font-semibold tracking-wide mb-4">
+            <span>// DEPLOYMENT & SETUP</span>
+          </div>
+          
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.1]">
+            Deploy in seconds.
+            <span className="block text-[#e04922] mt-1">
+              Zero configuration overhead.
+            </span>
           </h2>
-          <p className="text-foreground/70 max-w-2xl mx-auto opacity-0 animate-fade-in animate-delay-200">
-            Follow these simple steps to install and run RustPing on your system in minutes.
-          </p>
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden relative opacity-0 animate-fade-in animate-delay-300">
-            {/* Background elements */}
-            <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent"></div>
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-[#111115] rounded-2xl border border-[#1f1f26] shadow-2xl overflow-hidden relative">
             
-            {/* Platform selector */}
-            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+            {/* Top Glowing Strip */}
+            <div className="h-1 w-full bg-gradient-to-r from-[#e04922] via-[#f25d38] to-amber-500"></div>
+            
+            {/* Platform OS Selector Header */}
+            <div className="p-6 md:p-8 border-b border-[#1f1f26]">
               <Tabs defaultValue="linux" onValueChange={(val) => setPlatform(val as any)}>
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-medium flex items-center">
-                    <Server size={18} className="mr-2 text-primary" />
-                    Select Your Platform
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2 font-mono">
+                    <Server size={18} className="text-[#e04922]" />
+                    Target Operating System
                   </h3>
-                  <TabsList className="grid grid-cols-3 w-auto bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
-                    <TabsTrigger value="windows" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm transition-all">
-                      Windows
-                    </TabsTrigger>
-                    <TabsTrigger value="linux" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm transition-all">
+
+                  <TabsList className="bg-[#16161c] border border-[#252530] p-1 rounded-md">
+                    <TabsTrigger 
+                      value="linux" 
+                      className="data-[state=active]:bg-[#e04922] data-[state=active]:text-white text-slate-400 font-mono text-xs px-5 py-1.5 transition-all rounded-md"
+                    >
                       Linux
                     </TabsTrigger>
-                    <TabsTrigger value="macos" className="data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-sm transition-all">
+                    <TabsTrigger 
+                      value="windows" 
+                      className="data-[state=active]:bg-[#e04922] data-[state=active]:text-white text-slate-400 font-mono text-xs px-5 py-1.5 transition-all rounded-md"
+                    >
+                      Windows
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="macos" 
+                      className="data-[state=active]:bg-[#e04922] data-[state=active]:text-white text-slate-400 font-mono text-xs px-5 py-1.5 transition-all rounded-md"
+                    >
                       macOS
                     </TabsTrigger>
                   </TabsList>
                 </div>
                 
-                <TabsContent value="windows" className="mt-0">
-                  <WindowsInstallationSteps />
-                </TabsContent>
-                
                 <TabsContent value="linux" className="mt-0">
                   <LinuxMacOSInstallationSteps platform="linux" />
+                </TabsContent>
+
+                <TabsContent value="windows" className="mt-0">
+                  <WindowsInstallationSteps />
                 </TabsContent>
                 
                 <TabsContent value="macos" className="mt-0">
@@ -65,48 +76,43 @@ const InstallationGuideWithCopy = () => {
               </Tabs>
             </div>
             
-            {/* Web UI access */}
-            <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gradient-to-br from-primary/5 to-blue-500/5 dark:from-primary/10 dark:to-blue-500/10">
-              <h3 className="text-lg font-medium mb-4 flex items-center">
-                <Globe size={18} className="mr-2 text-primary" />
-                Access the Web Dashboard
+            {/* Web UI Local URL Access Block */}
+            <div className="p-6 md:p-8 bg-[#0a0a0e]">
+              <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2 font-mono">
+                <Globe size={18} className="text-emerald-400" />
+                Access Web UI Dashboard
               </h3>
-              <p className="text-foreground/70 mb-4">
-                Once RustPing is running, access the web interface at:
+              <p className="text-slate-400 text-xs mb-3">
+                Once the RustPing server binary starts, open your web browser to view the live dashboard:
               </p>
-              <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm relative overflow-hidden shadow-lg">
-                <span className="block overflow-x-auto whitespace-nowrap custom-scrollbar">
-                  http://127.0.0.1:8000/
-                </span>
-                <CopyButton
-                  value="http://127.0.0.1:8000/"
-                  className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
-                />
-              </div>
-              <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
-                <p className="text-amber-700 dark:text-amber-300 text-sm flex items-start">
-                  <span className="text-amber-500 mr-2 flex-shrink-0 mt-0.5">💡</span>
-                  Windows users: The trailing "/" might be needed when running the executable directly.
-                </p>
+              <div className="bg-[#14141a] border border-[#1f1f26] text-[#f25d38] p-3.5 rounded-xl font-mono text-xs flex items-center justify-between shadow-inner gap-3">
+                <span className="select-all font-bold truncate">http://127.0.0.1:8000/</span>
+                <CopyButton value="http://127.0.0.1:8000/" />
               </div>
             </div>
           </div>
           
-          <div className="mt-8 text-center">
-            <p className="text-sm text-foreground/60 mb-6">
-              For additional configuration options and advanced usage, please refer to the
-              <a href="https://github.com/karthik558/Rust-Ping" className="text-primary hover:underline ml-1">
-                documentation
-              </a>.
-            </p>
+          {/* Action Button Group */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
-              variant="outline" 
-              className="border-primary/30 text-primary hover:bg-primary/10 hover:text-primary"
+              className="bg-[#e04922] hover:bg-[#c83b16] text-white font-semibold text-xs px-6 py-6 rounded-md shadow-lg shadow-[#e04922]/25 transition-all hover:scale-[1.02] font-mono"
               asChild
             >
-              <a href="https://github.com/karthik558/Rust-Ping" className="inline-flex items-center">
-                <Code size={16} className="mr-2" />
-                View Source Code
+              <a href="#installation">
+                <span>Deploy RustPing Now</span>
+                <ArrowRight size={14} className="ml-2" />
+              </a>
+            </Button>
+
+            <Button 
+              variant="outline" 
+              className="bg-[#111115] border-[#1f1f26] text-slate-300 hover:text-white hover:bg-[#181820] text-xs font-mono px-6 py-6 rounded-md"
+              asChild
+            >
+              <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2">
+                <Github size={14} className="text-[#e04922]" />
+                <span>View Repository on GitHub</span>
+                <ExternalLink size={11} className="opacity-60" />
               </a>
             </Button>
           </div>
@@ -117,41 +123,39 @@ const InstallationGuideWithCopy = () => {
 };
 
 const LinuxMacOSInstallationSteps = ({ platform }: { platform: 'linux' | 'macos' }) => {
-  const title = platform === 'linux' ? 'Linux' : 'macOS';
-  
   return (
     <div className="space-y-6 py-2">
       <InstallationStep 
-        number={1} 
-        title="Clone the Repository" 
-        icon={<FileCode className="h-5 w-5 text-primary" />}
+        number="01" 
+        title="Clone Repository" 
+        icon={<FileCode className="h-4 w-4 text-[#e04922]" />}
         command="git clone https://github.com/karthik558/Rust-Ping.git && cd Rust-Ping"
       />
       
       <InstallationStep 
-        number={2} 
-        title="Build the Project (Release Mode)" 
-        icon={<PackageOpen className="h-5 w-5 text-primary" />}
+        number="02" 
+        title="Build Optimized Release Binary" 
+        icon={<PackageOpen className="h-4 w-4 text-[#e04922]" />}
         command="cargo build --release"
-        note="This creates an optimized executable in the target/release directory."
+        note="Compiles an optimized release executable in target/release."
       />
       
       <InstallationStep 
-        number={3} 
-        title="Run the Application" 
-        icon={<Terminal className="h-5 w-5 text-primary" />}
-        command={`./target/release/Rust-Ping`}
+        number="03" 
+        title="Execute Server Engine" 
+        icon={<Terminal className="h-4 w-4 text-[#e04922]" />}
+        command="./target/release/Rust-Ping"
         additionalCommand="cargo run"
-        additionalNote="Alternatively use cargo:"
+        additionalNote="Or launch directly via Cargo:"
       />
       
       <InstallationStep 
-        number={4} 
-        title="Access the Dashboard" 
-        icon={<Monitor className="h-5 w-5 text-primary" />}
+        number="04" 
+        title="Launch Web Dashboard" 
+        icon={<Monitor className="h-4 w-4 text-[#e04922]" />}
         command="http://127.0.0.1:8000/static/index.html"
         isLink={true}
-        note="Open your web browser and navigate to this URL."
+        note="Navigate to the dashboard URL in your browser."
       />
     </div>
   );
@@ -161,97 +165,43 @@ const WindowsInstallationSteps = () => {
   return (
     <div className="space-y-6 py-2">
       <InstallationStep 
-        number={1} 
-        title="Clone the Repository" 
-        icon={<FileCode className="h-5 w-5 text-primary" />}
+        number="01" 
+        title="Clone Repository" 
+        icon={<FileCode className="h-4 w-4 text-[#e04922]" />}
         command="git clone https://github.com/karthik558/Rust-Ping.git && cd Rust-Ping"
       />
       
       <InstallationStep 
-        number={2} 
-        title="Install MSYS2" 
-        icon={<PackageOpen className="h-5 w-5 text-primary" />}
-        note="Follow the instructions on the MSYS2 website to install it. This provides the necessary build tools."
+        number="02" 
+        title="Install Prerequisites (MSYS2 Toolchain)" 
+        icon={<PackageOpen className="h-4 w-4 text-[#e04922]" />}
+        note="Requires MSYS2 or MinGW-w64 GCC build tools on Windows."
         isLink={true}
         command="https://www.msys2.org/"
-        linkText="MSYS2 website"
+        linkText="Download MSYS2 Web Installer"
       />
       
       <InstallationStep 
-        number={3} 
-        title="Rust Installation (if not already installed)" 
-        icon={<PackageOpen className="h-5 w-5 text-primary" />}
-        note="Follow the instructions on Rust website to install Rust."
-        isLink={true}
-        command="https://www.rust-lang.org/tools/install"
-        linkText="Rust website"
-      />
-      
-      <InstallationStep 
-        number={4} 
-        title="Alternative MinGW Installation (if msys2 not working)" 
-        icon={<PackageOpen className="h-5 w-5 text-primary" />}
-        note="Download and install MinGW-w64 from the MinGW-w64 installer."
-        isLink={true}
-        command="https://github.com/Vuniverse0/mingwInstaller/releases/download/1.2.1/mingwInstaller.exe"
-        linkText="MinGW-w64 installer"
-      />
-      
-      <InstallationStep 
-        number={5} 
-        title="Add MinGW to PATH" 
-        icon={<Terminal className="h-5 w-5 text-primary" />}
-        note="Ensure the bin directory of your MinGW-w64 installation is added to your system's PATH environment variable. It should look similar to this:"
-        command="C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin"
-      />
-      
-      <InstallationStep 
-        number={6} 
-        title="Set Rustup Default (Important!)" 
-        icon={<Terminal className="h-5 w-5 text-primary" />}
+        number="03" 
+        title="Configure GNU Rust Toolchain" 
+        icon={<Terminal className="h-4 w-4 text-[#e04922]" />}
         command="rustup default stable-x86_64-pc-windows-gnu"
-        additionalCommand="rustup show"
-        additionalNote="Verify with:"
       />
       
       <InstallationStep 
-        number={7} 
-        title="Open a New Command Prompt" 
-        icon={<Terminal className="h-5 w-5 text-primary" />}
-        note="Open a new command prompt or PowerShell window after installing MSYS2 and setting the Rustup default. This ensures the environment variables are loaded correctly. Navigate to project directory:"
-        command="cd Rust-Ping"
-      />
-      
-      <InstallationStep 
-        number={8} 
-        title="Build the Project" 
-        icon={<PackageOpen className="h-5 w-5 text-primary" />}
-        command="cargo build --release"
-      />
-      
-      <InstallationStep 
-        number={9} 
-        title="Run the Application" 
-        icon={<Terminal className="h-5 w-5 text-primary" />}
+        number="04" 
+        title="Build and Execute Windows Binary" 
+        icon={<Terminal className="h-4 w-4 text-[#e04922]" />}
         command="cargo run"
         additionalCommand=".\target\release\Rust-Ping.exe"
-        additionalNote="or (better for deployment):"
-      />
-      
-      <InstallationStep 
-        number={10} 
-        title="Access the Dashboard" 
-        icon={<Monitor className="h-5 w-5 text-primary" />}
-        command="http://127.0.0.1:8000/"
-        isLink={true}
-        note="Open your web browser and navigate to this URL. (Note the trailing / might be needed if you're directly running the executable)."
+        additionalNote="Or launch binary directly:"
       />
     </div>
   );
 };
 
 interface InstallationStepProps {
-  number: number;
+  number: string;
   title: string;
   icon: React.ReactNode;
   command?: string;
@@ -274,70 +224,57 @@ const InstallationStep = ({
   linkText,
 }: InstallationStepProps) => {
   return (
-    <div className="relative pl-8 border-l-2 border-primary/30 hover:border-primary/50 transition-colors duration-300">
-      {/* Step number bubble */}
-      <div className="absolute -left-5 bg-gradient-to-br from-primary to-blue-500 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
+    <div className="relative pl-8 border-l border-[#1f1f26]">
+      {/* Step Badge */}
+      <div className="absolute -left-3.5 top-0 bg-[#e04922] text-white w-7 h-7 rounded-full flex items-center justify-center text-xs font-mono font-bold shadow-md">
         {number}
       </div>
       
-      <div className="mb-3 pb-6">
-        <h4 className="text-lg font-semibold flex items-center gap-2 mb-2">
+      <div className="mb-2">
+        <h4 className="text-sm font-bold text-slate-200 flex items-center gap-2 mb-1">
           {icon}
           {title}
         </h4>
       
-      {note && (
-        <p className="text-sm text-foreground/70 mb-2">
-          {note}
-        </p>
-      )}
+        {note && (
+          <p className="text-xs text-slate-400 mb-2.5">
+            {note}
+          </p>
+        )}
       
-      {command && (
-        <div className="mb-2">
-          {isLink ? (
-            <a 
-              href={command} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center text-primary hover:underline"
-            >
-              {linkText || command}
-              <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-              </svg>
-            </a>
-          ) : (
-            <div className="bg-gray-900 text-white p-3 rounded-lg font-mono text-sm relative overflow-hidden shadow-md border border-gray-700">
-              <span className="block overflow-x-auto whitespace-nowrap pr-8 custom-scrollbar">
-                {command}
-              </span>
-              <CopyButton
-                value={command}
-                className="absolute top-2.5 right-2.5 text-gray-400 hover:text-white transition-colors"
-              />
-            </div>
-          )}
-        </div>
-      )}
+        {command && (
+          <div className="mb-2">
+            {isLink ? (
+              <a 
+                href={command} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center text-xs font-mono text-[#f25d38] hover:underline"
+              >
+                {linkText || command}
+              </a>
+            ) : (
+              <div className="bg-[#0a0a0e] text-slate-200 p-3.5 rounded-xl border border-[#1f1f26] font-mono text-xs flex items-center justify-between gap-3">
+                <span className="truncate text-emerald-400">$ {command}</span>
+                <CopyButton value={command} />
+              </div>
+            )}
+          </div>
+        )}
       
-      {additionalNote && (
-        <p className="text-sm text-foreground/70 mt-2 mb-1">
-          {additionalNote}
-        </p>
-      )}
+        {additionalNote && (
+          <p className="text-xs text-slate-400 mt-2.5 mb-1.5">
+            {additionalNote}
+          </p>
+        )}
       
-      {additionalCommand && (
-        <div className="bg-gray-900 text-white p-3 rounded-lg font-mono text-sm relative overflow-hidden shadow-md border border-gray-700">
-          <span className="block overflow-x-auto whitespace-nowrap pr-8 custom-scrollbar">
-            {additionalCommand}
-          </span>
-          <CopyButton
-            value={additionalCommand}
-            className="absolute top-2.5 right-2.5 text-gray-400 hover:text-white transition-colors"
-          />
-        </div>
-      )}
-    </div>
+        {additionalCommand && (
+          <div className="bg-[#0a0a0e] text-slate-200 p-3.5 rounded-xl border border-[#1f1f26] font-mono text-xs flex items-center justify-between gap-3">
+            <span className="truncate text-emerald-400">$ {additionalCommand}</span>
+            <CopyButton value={additionalCommand} />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,76 +1,59 @@
-
 import React from 'react';
-import { Check, Clock, AlertCircle, Calendar } from 'lucide-react';
+import { CheckCircle2, Clock, Calendar, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface RoadmapItemProps {
+  number: string;
   title: string;
   description: string;
   status: 'complete' | 'upcoming' | 'planned';
-  index: number;
 }
 
 const statusMap = {
   complete: {
-    icon: Check,
-    chip: 'text-green-700 bg-green-100 dark:text-green-400 dark:bg-green-900/30',
-    label: 'Complete',
-    border: 'border-green-600 dark:border-green-500',
+    icon: CheckCircle2,
+    chip: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
+    label: 'RELEASED',
   },
   upcoming: {
     icon: Clock,
-    chip: 'text-blue-700 bg-blue-100 dark:text-blue-400 dark:bg-blue-900/30',
-    label: 'Upcoming',
-    border: 'border-blue-600 dark:border-blue-500',
+    chip: 'text-[#e04922] bg-[#e04922]/10 border-[#e04922]/30',
+    label: 'IN DEVELOPMENT',
   },
   planned: {
     icon: Calendar,
-    chip: 'text-purple-700 bg-purple-100 dark:text-purple-400 dark:bg-purple-900/30',
-    label: 'Planned',
-    border: 'border-purple-600 dark:border-purple-500',
+    chip: 'text-slate-400 bg-[#181820] border-[#252530]',
+    label: 'PLANNED',
   },
 };
 
-const RoadmapItem = ({ title, description, status, index }: RoadmapItemProps) => {
-  const { icon: Icon, chip, label, border } = statusMap[status];
+const RoadmapItem = ({ number, title, description, status }: RoadmapItemProps) => {
+  const { icon: Icon, chip, label } = statusMap[status];
   
   return (
-    <div 
-      className={cn(
-        "border rounded-md p-4 opacity-0 animate-fade-in-up hover:shadow-md transition-all duration-300 transform hover:-translate-y-1",
-        status === 'complete' ? 'border-green-200 dark:border-green-800/50 hover:border-green-300 dark:hover:border-green-700' : 
-        status === 'upcoming' ? 'border-blue-200 dark:border-blue-800/50 hover:border-blue-300 dark:hover:border-blue-700' : 
-        'border-purple-200 dark:border-purple-800/50 hover:border-purple-300 dark:hover:border-purple-700'
-      )}
-      style={{ animationDelay: `${100 + index * 100}ms` }}
-    >
-      <div className="flex items-start">
-        <div className={cn(
-          "flex-shrink-0 h-8 w-8 rounded-full flex items-center justify-center mr-3 border-2 transition-all duration-300",
-          border,
-          status === 'complete' ? 'group-hover:bg-green-50 dark:group-hover:bg-green-900/20' :
-          status === 'upcoming' ? 'group-hover:bg-blue-50 dark:group-hover:bg-blue-900/20' :
-          'group-hover:bg-purple-50 dark:group-hover:bg-purple-900/20'
-        )}>
-          <Icon size={16} className={
-            status === 'complete' ? 'text-green-600 dark:text-green-400' : 
-            status === 'upcoming' ? 'text-blue-600 dark:text-blue-400' : 
-            'text-purple-600 dark:text-purple-400'
-          } />
+    <div className="p-6 rounded-2xl bg-[#111115] border border-[#1f1f26] hover:border-[#e04922]/40 transition-all flex flex-col justify-between group">
+      <div>
+        <div className="flex items-center justify-between gap-3 mb-4">
+          <span className="font-mono text-xs font-bold text-[#e04922] px-2.5 py-1 rounded bg-[#e04922]/10 border border-[#e04922]/20">
+            {number}
+          </span>
+          <span className={cn("text-[10px] font-mono font-bold px-2.5 py-1 rounded-md border tracking-wider", chip)}>
+            {label}
+          </span>
         </div>
-        <div className="flex-1 group">
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            <h3 className="font-semibold group-hover:text-primary transition-colors duration-300">{title}</h3>
-            <span className={cn(
-              "text-xs px-2 py-0.5 rounded-full transition-all duration-300", 
-              chip,
-              status === 'complete' ? 'group-hover:bg-green-200 dark:group-hover:bg-green-800/40' :
-              status === 'upcoming' ? 'group-hover:bg-blue-200 dark:group-hover:bg-blue-800/40' :
-              'group-hover:bg-purple-200 dark:group-hover:bg-purple-800/40'
-            )}>{label}</span>
-          </div>
-          <p className="text-foreground/70 text-sm group-hover:text-foreground/90 transition-colors duration-300">{description}</p>
-        </div>
+
+        <h3 className="font-bold text-white text-lg mb-2 group-hover:text-[#e04922] transition-colors">
+          {title}
+        </h3>
+        
+        <p className="text-slate-400 text-xs leading-relaxed">
+          {description}
+        </p>
+      </div>
+
+      <div className="pt-4 mt-4 border-t border-[#1f1f26] flex items-center gap-2 text-[11px] font-mono text-slate-500">
+        <Icon size={13} className={status === 'complete' ? 'text-emerald-400' : status === 'upcoming' ? 'text-[#e04922]' : 'text-slate-500'} />
+        <span>Status: {status.toUpperCase()}</span>
       </div>
     </div>
   );
@@ -79,63 +62,72 @@ const RoadmapItem = ({ title, description, status, index }: RoadmapItemProps) =>
 const RoadmapSection = () => {
   const roadmapItems = [
     {
-      title: 'User Authentication',
-      description: 'Secure access with a login system and role-based permissions',
+      number: '01',
+      title: 'Real-time Async ICMP Engine',
+      description: 'Tokio-powered async probing for ultra-low latency status checks across subnets.',
+      status: 'complete' as const,
+    },
+    {
+      number: '02',
+      title: 'Interactive Log Export System',
+      description: 'Filter logs by IP/date ranges and export directly in CSV, TXT, or JSON formats.',
+      status: 'complete' as const,
+    },
+    {
+      number: '03',
+      title: 'Role-Based Authentication (RBAC)',
+      description: 'Multi-user login with encrypted session tokens and permission access control.',
       status: 'upcoming' as const,
     },
     {
-      title: 'Device Management',
-      description: 'Add, remove, and edit devices directly from the dashboard',
+      number: '04',
+      title: 'GUI Subnet & Device Manager',
+      description: 'Add, edit, and organize network devices directly through the Web UI without editing JSON.',
       status: 'upcoming' as const,
     },
     {
-      title: 'New Sensors (TCP, UDP)',
-      description: 'Expand monitoring capabilities with additional protocols',
+      number: '05',
+      title: 'TCP & UDP Port Checking',
+      description: 'Expanded protocol support for custom service ports, database engines, and game servers.',
       status: 'planned' as const,
     },
     {
-      title: 'Email/SMS Notifications',
-      description: 'Get alerts for critical device status changes',
-      status: 'planned' as const,
-    },
-    {
-      title: 'Docker Support',
-      description: 'Simplify deployment and portability with containerization',
-      status: 'planned' as const,
-    },
-    {
-      title: 'Mobile App',
-      description: 'Monitor your network on the go with a dedicated mobile application',
+      number: '06',
+      title: 'Automated Telegram & Webhook Alerts',
+      description: 'Instant notifications dispatched when monitored subnets or devices change state.',
       status: 'planned' as const,
     },
   ];
 
   return (
-    <section id="roadmap" className="py-20 bg-secondary/50 dark:bg-secondary/20">
-      <div className="section-container">
-        <div className="text-center mb-12">
-          <span className="feature-chip opacity-0 animate-fade-in">Development Roadmap</span>
-          <h2 className="text-3xl md:text-4xl font-bold mt-3 mb-4 opacity-0 animate-fade-in animate-delay-100">
-            What's Coming Next
-          </h2>
-          <p className="text-foreground/70 max-w-2xl mx-auto opacity-0 animate-fade-in animate-delay-200">
-            We're constantly improving RustPing with new features and capabilities. Here's what's on our roadmap.
-          </p>
+    <div className="w-full">
+      {/* Section Header */}
+      <div className="mb-14 text-left">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#16161c] border border-[#252530] text-[#e04922] text-xs font-mono font-semibold tracking-wide mb-4">
+          <span>// PRODUCT EVOLUTION</span>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {roadmapItems.map((item, index) => (
-            <RoadmapItem
-              key={index}
-              title={item.title}
-              description={item.description}
-              status={item.status}
-              index={index}
-            />
-          ))}
-        </div>
+        
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.1]">
+          Strategic evolution,
+          <span className="block text-[#e04922] mt-1">
+            built for scale.
+          </span>
+        </h2>
       </div>
-    </section>
+
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {roadmapItems.map((item) => (
+          <RoadmapItem
+            key={item.number}
+            number={item.number}
+            title={item.title}
+            description={item.description}
+            status={item.status}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

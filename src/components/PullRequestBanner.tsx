@@ -1,55 +1,62 @@
-
 import React from 'react';
-import { GitPullRequest, Code, Github, Heart } from 'lucide-react';
+import { GitPullRequest, Github, Heart, Code2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const PullRequestBanner = () => {
   return (
-    <section className="py-16 bg-gradient-to-br from-primary/5 via-primary/10 to-blue-500/5 dark:from-primary/10 dark:via-primary/15 dark:to-blue-500/10">
-      <div className="section-container">
-        <div className="dashboard-card p-10 relative overflow-hidden border-dashed border-2 border-primary/30 hover:border-primary/50 transition-all duration-300 group">
-          <div className="absolute -top-10 -right-10 h-40 w-40 bg-gradient-to-br from-primary/10 to-blue-500/5 rounded-full blur-3xl group-hover:blur-2xl transition-all duration-500"></div>
-          <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-gradient-to-tr from-blue-500/5 to-primary/10 rounded-full blur-2xl"></div>
-          
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-1.5 rounded-full bg-primary/10">
-                  <GitPullRequest size={18} className="text-primary" />
-                </div>
-                <span className="text-sm font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">100% Free & Open Source</span>
-              </div>
-              <h3 className="text-2xl md:text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300">Contribute to RustPing</h3>
-              <p className="text-foreground/70 mb-4 text-base">
-                RustPing is completely free and open source. We welcome contributions from the community to make it even better.
-              </p>
-              <div className="flex items-center text-sm text-foreground/60">
-                <Heart size={14} className="text-red-500 mr-1" />
-                <span>Built with love by the community</span>
-              </div>
-            </div>
+    <div className="w-full">
+      <div className="rounded-2xl bg-[#111115] border border-[#1f1f26] hover:border-[#e04922]/40 p-8 md:p-12 shadow-2xl relative overflow-hidden transition-all group">
+        
+        {/* Soft Background Radial Glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#e04922]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative z-10">
+          <div className="max-w-2xl">
             
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button 
-                variant="outline" 
-                className="flex items-center gap-2 highlight-on-hover shadow-md hover:shadow-lg border-primary/30 hover:border-primary/50"
-                onClick={() => window.open('https://github.com/karthik558/Rust-Ping', '_blank')}
-              >
-                <Github size={18} />
-                <span>View on GitHub</span>
-              </Button>
-              <Button 
-                className="flex items-center gap-2 highlight-on-hover shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:scale-105 transform transition-all duration-300"
-                onClick={() => window.open('https://github.com/karthik558/Rust-Ping/pulls', '_blank')}
-              >
-                <GitPullRequest size={18} />
-                <span>Open a Pull Request</span>
-              </Button>
+            {/* Category Tag */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#16161c] border border-[#252530] text-[#e04922] text-xs font-mono font-semibold tracking-wide mb-4">
+              <span>// OPEN SOURCE COMMUNITY</span>
+            </div>
+
+            <h3 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight mb-3">
+              Built in the open.
+              <span className="block text-[#e04922] mt-1">
+                Driven by developers.
+              </span>
+            </h3>
+            
+            <p className="text-slate-400 text-sm leading-relaxed mb-6 max-w-xl">
+              RustPing is 100% free and open-source software under the MIT License. We welcome feature proposals, bug fixes, and pull requests from global infrastructure engineers.
+            </p>
+
+            <div className="flex items-center text-xs font-mono text-slate-400 gap-2">
+              <Code2 size={15} className="text-[#e04922]" />
+              <span>Maintained by the global Rust & Open Source community</span>
             </div>
           </div>
+
+          <div className="flex flex-col sm:flex-row gap-3.5 w-full lg:w-auto">
+            <Button 
+              variant="outline" 
+              className="bg-[#181820] hover:bg-[#20202c] text-slate-200 border-[#252530] font-semibold text-xs px-6 py-6 rounded-md flex items-center justify-center gap-2 transition-all"
+              onClick={() => window.open('https://github.com/karthik558/Rust-Ping', '_blank')}
+            >
+              <Github size={16} />
+              <span>View Repository</span>
+            </Button>
+            
+            <Button 
+              className="bg-[#e04922] hover:bg-[#c83b16] text-white font-semibold text-xs px-6 py-6 rounded-md flex items-center justify-center gap-2 shadow-lg shadow-[#e04922]/25 transition-all hover:scale-[1.02]"
+              onClick={() => window.open('https://github.com/karthik558/Rust-Ping/pulls', '_blank')}
+            >
+              <GitPullRequest size={16} />
+              <span>Open Pull Request</span>
+            </Button>
+          </div>
         </div>
+
       </div>
-    </section>
+    </div>
   );
 };
 

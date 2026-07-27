@@ -1,18 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
 import { Check, Copy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
 interface CopyButtonProps {
-  value: string;  // Changed from 'text' to 'value' to match usage
+  value: string;
   className?: string;
 }
 
 const CopyButton = ({ value, className }: CopyButtonProps) => {
   const [isCopied, setIsCopied] = useState(false);
 
-  // Reset copied state after 2 seconds
   useEffect(() => {
     if (isCopied) {
       const timeout = setTimeout(() => {
@@ -24,7 +22,7 @@ const CopyButton = ({ value, className }: CopyButtonProps) => {
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(value);  // Changed from 'text' to 'value'
+      await navigator.clipboard.writeText(value);
       setIsCopied(true);
     } catch (err) {
       console.error('Failed to copy text: ', err);
@@ -33,19 +31,20 @@ const CopyButton = ({ value, className }: CopyButtonProps) => {
 
   return (
     <Button
+      type="button"
       variant="outline"
       size="sm"
       className={cn(
-        "h-8 w-8 p-0 absolute top-3 right-3 text-foreground/60 hover:text-foreground bg-background/80 backdrop-blur-sm", 
+        "h-7 w-7 p-0 flex items-center justify-center shrink-0 rounded-md border border-[#252530] bg-[#16161c] hover:bg-[#20202a] text-slate-400 hover:text-white transition-colors", 
         className
       )}
       onClick={copyToClipboard}
       title="Copy to clipboard"
     >
       {isCopied ? (
-        <Check className="h-4 w-4 text-green-500" />
+        <Check className="h-3.5 w-3.5 text-emerald-400" />
       ) : (
-        <Copy className="h-4 w-4" />
+        <Copy className="h-3.5 w-3.5" />
       )}
     </Button>
   );

@@ -1,215 +1,419 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Activity,
+  ArrowDown,
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Copy,
+  Download,
+  Gauge,
+  Globe2,
+  Menu,
+  Network,
+  Radio,
+  ShieldCheck,
+  Terminal,
+  X,
+  Zap,
+} from "lucide-react";
 
-import React, { useEffect } from 'react';
-import { Activity, Search, Clock, Shield, Database, Layout, MonitorSmartphone, FileCode, Bell, Download, ArrowRight, Github, ExternalLink } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Navbar from '@/components/Navbar';
-import HeroSection from '@/components/HeroSection';
-import FeatureCard from '@/components/FeatureCard';
-import ScreenshotParallax from '@/components/ScreenshotParallax';
-import RoadmapSection from '@/components/RoadmapSection';
-import PullRequestBanner from '@/components/PullRequestBanner';
-import DashboardDemo from '@/components/DashboardDemo';
-import Footer from '@/components/Footer';
-import InstallationGuideWithCopy from '@/components/InstallationGuideWithCopy';
+const installCommand =
+  "git clone https://github.com/karthik558/Rust-Ping.git && cd Rust-Ping && cargo run --release";
 
-const Index = () => {
-  // Observer for scroll animations
+const features = [
+  {
+    number: "01",
+    icon: Zap,
+    title: "Fast by design",
+    text: "An asynchronous Rust core probes entire subnets without turning your monitoring stack into the bottleneck.",
+    visual: "latency",
+  },
+  {
+    number: "02",
+    icon: Activity,
+    title: "Live state, no noise",
+    text: "A focused event stream keeps device state, response time, and failures legible while the network is moving.",
+    visual: "chart",
+  },
+  {
+    number: "03",
+    icon: Network,
+    title: "One view, every target",
+    text: "Keep local devices, public endpoints, and HTTP services together in one operational surface.",
+    visual: "nodes",
+  },
+  {
+    number: "04",
+    icon: Download,
+    title: "Evidence on demand",
+    text: "Filter and export event history for incident reviews, reporting, and long-term analysis.",
+    visual: "export",
+  },
+];
+
+const roadmap = [
+  ["01", "Async ICMP engine", "Released"],
+  ["02", "Log export system", "Released"],
+  ["03", "Role-based access", "In development"],
+  ["04", "Visual device manager", "In development"],
+  ["05", "TCP + UDP probes", "Planned"],
+  ["06", "Webhook alerts", "Planned"],
+];
+
+const faqs = [
+  [
+    "What can RustPing monitor?",
+    "RustPing monitors ICMP response, HTTP endpoint status, and network performance signals across local and remote infrastructure.",
+  ],
+  [
+    "Which systems can run it?",
+    "RustPing compiles natively on Linux, Windows, and macOS. A current Rust toolchain is the main requirement.",
+  ],
+  [
+    "Does it require a hosted account?",
+    "No. RustPing is self-hosted, so your infrastructure data stays in the environment you control.",
+  ],
+  [
+    "Can I export monitoring history?",
+    "Yes. Event history can be filtered and exported in common formats for reporting and incident review.",
+  ],
+];
+
+function Brand() {
+  return (
+    <a href="#top" className="brand" aria-label="RustPing home">
+      <span className="brand-mark"><Radio size={17} strokeWidth={2.4} /></span>
+      <span>RUST<span>PING</span></span>
+    </a>
+  );
+}
+
+function Header() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in-up');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
-      observer.observe(el);
-    });
-
-    return () => {
-      document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
-        observer.unobserve(el);
-      });
-    };
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const features = [
-    {
-      icon: Activity,
-      title: 'Real-time Device Monitoring',
-      description: 'Keep an eye on your network devices with live updates and precise status tracking.',
-    },
-    {
-      icon: Layout,
-      title: 'Interactive Dashboard',
-      description: 'Visualize your network\'s health with intuitive charts, tables, and indicators.',
-    },
-    {
-      icon: Search,
-      title: 'Multiple Sensors',
-      description: 'Monitor devices using Ping, HTTP checks, and bandwidth monitoring tools.',
-    },
-    {
-      icon: FileCode,
-      title: 'Detailed Logging',
-      description: 'Access comprehensive logs for troubleshooting and historical analysis.',
-    },
-    {
-      icon: Clock,
-      title: 'Automatic Retry',
-      description: 'Handles intermittent network issues gracefully with automatic retries.',
-    },
-    {
-      icon: Download,
-      title: 'Log Export',
-      description: 'Export logs in CSV or TXT format for offline analysis and reporting.',
-    },
-    {
-      icon: Shield,
-      title: 'User Authentication',
-      description: 'Secure access with a login system and role-based permissions (upcoming).',
-    },
-    {
-      icon: MonitorSmartphone,
-      title: 'Responsive Design',
-      description: 'Works seamlessly on various devices, including desktops and tablets.',
-    },
-    {
-      icon: Database,
-      title: 'Device Dashboard',
-      description: 'Add devices directly from the front-end without editing JSON files.',
-    },
+  const links = [
+    ["System", "#system"],
+    ["Interface", "#interface"],
+    ["Roadmap", "#roadmap"],
+    ["Setup", "#setup"],
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
-      
-      <main>
-        <HeroSection />
-        
-        {/* Dashboard Demo Section */}
-        <section id="demo" className="py-24 bg-gradient-to-br from-gray-50/50 to-white dark:from-gray-900/50 dark:to-gray-800/30">
-          <div className="section-container">
-            <DashboardDemo />
+    <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
+      <div className="shell nav-inner">
+        <Brand />
+        <nav className="desktop-nav" aria-label="Primary navigation">
+          {links.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
+          <Link to="/license">License</Link>
+        </nav>
+        <a className="button button-small desktop-cta" href="#setup">
+          Deploy <ArrowRight size={14} />
+        </a>
+        <button className="menu-button" onClick={() => setOpen(!open)} aria-label="Toggle menu" aria-expanded={open}>
+          {open ? <X size={21} /> : <Menu size={21} />}
+        </button>
+      </div>
+      {open && (
+        <nav className="mobile-nav" aria-label="Mobile navigation">
+          {links.map(([label, href]) => (
+            <a key={href} href={href} onClick={() => setOpen(false)}>{label}</a>
+          ))}
+          <Link to="/license" onClick={() => setOpen(false)}>License</Link>
+        </nav>
+      )}
+    </header>
+  );
+}
+
+function MonitorVisual() {
+  return (
+    <div className="monitor-wrap" aria-label="RustPing live monitoring interface preview">
+      <div className="orbit orbit-one" />
+      <div className="orbit orbit-two" />
+      <div className="status-float status-top">
+        <span>Engine status</span>
+        <strong>Optimal <i /></strong>
+      </div>
+      <div className="status-float status-side">
+        <span>Probe cycle</span>
+        <strong>2.0 sec</strong>
+      </div>
+      <div className="monitor-window">
+        <div className="window-bar">
+          <div><i /><i /><i /></div>
+          <span>rustping / live-monitor</span>
+          <Radio size={13} />
+        </div>
+        <div className="monitor-head">
+          <div>
+            <span className="eyebrow">NETWORK OVERVIEW</span>
+            <h3>12 devices online</h3>
           </div>
-        </section>
-        
-        {/* Features Section */}
-        <section id="features" className="py-24 bg-white dark:bg-gray-900">
-          <div className="section-container">
-            <div className="text-center mb-16">
-              <div className="glass-card inline-block px-6 py-3 mb-6 fade-in">
-                <span className="text-sm font-semibold text-gradient-primary">Powerful Features</span>
-              </div>
-              <h2 className="heading-lg text-gradient mb-6 slide-up delay-100">
-                Everything You Need for
-                <span className="block text-gradient-primary">Network Monitoring</span>
-              </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed slide-up delay-200">
-                RustPing combines cutting-edge technology with an intuitive interface to deliver 
-                comprehensive network monitoring that scales with your needs.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {features.map((feature, index) => (
-                <FeatureCard
-                  key={index}
-                  icon={feature.icon}
-                  title={feature.title}
-                  description={feature.description}
-                  index={index}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-        
-        {/* Screenshot Section */}
-        <section id="screenshots" className="py-24 bg-gradient-to-br from-primary/5 via-blue-50/30 to-indigo-50/50 dark:from-primary/10 dark:via-blue-950/20 dark:to-indigo-950/30">
-          <div className="section-container">
-            <ScreenshotParallax />
-          </div>
-        </section>
-        
-        {/* Contribution Section */}
-        <section className="py-24 bg-white dark:bg-gray-900">
-          <div className="section-container">
-            <PullRequestBanner />
-          </div>
-        </section>
-        
-        {/* Roadmap Section */}
-        <section id="roadmap" className="py-24 bg-gradient-to-br from-gray-50/50 to-white dark:from-gray-900/50 dark:to-gray-800/30">
-          <div className="section-container">
-            <RoadmapSection />
-          </div>
-        </section>
-        
-        {/* Installation Guide */}
-        <section className="py-24 bg-white dark:bg-gray-900">
-          <div className="section-container">
-            <InstallationGuideWithCopy />
-          </div>
-        </section>
-        
-        {/* CTA Section */}
-        <section className="py-24 bg-gradient-to-br from-primary/5 via-blue-50/30 to-indigo-50/50 dark:from-primary/10 dark:via-blue-950/20 dark:to-indigo-950/30">
-          <div className="section-container">
-            <div className="text-center">
-              <div className="glass-card p-16 max-w-4xl mx-auto relative overflow-hidden group">
-                <div className="relative z-10">
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-gradient mb-6 px-4">
-                    Ready to Transform Your Network Monitoring?
-                  </h2>
-                  <p className="text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed px-4">
-                    Join thousands of developers and system administrators who trust RustPing 
-                    for their network infrastructure monitoring needs.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Button 
-                      asChild 
-                      className="btn-modern btn-primary"
-                    >
-                      <a href="#installation" className="flex items-center gap-2">
-                        Start Monitoring Now
-                        <ArrowRight className="w-4 h-4" />
-                      </a>
-                    </Button>
-                    <Button 
-                      asChild 
-                      variant="outline" 
-                      className="btn-modern btn-secondary"
-                    >
-                      <a href="https://github.com/karthik558/Rust-Ping" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                        <Github className="w-4 h-4" />
-                        View Source Code
-                        <ExternalLink className="w-3 h-3 opacity-60" />
-                      </a>
-                    </Button>
-                  </div>
-                </div>
-                
-                {/* Enhanced floating elements */}
-                <div className="absolute -top-16 -right-16 w-32 h-32 bg-gradient-to-br from-primary/20 to-blue-500/10 rounded-full blur-2xl float delay-0"></div>
-                <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-gradient-to-br from-blue-500/20 to-indigo-500/10 rounded-full blur-2xl float delay-300"></div>
-                <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-primary/60 rounded-full float delay-100"></div>
-                <div className="absolute bottom-1/4 left-1/4 w-3 h-3 bg-blue-500/60 rounded-full float delay-400"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-      
-      <Footer />
+          <div className="health-ring"><span>98</span><small>%</small></div>
+        </div>
+        <div className="signal-chart">
+          {[24, 34, 30, 46, 40, 58, 49, 66, 53, 72, 61, 80, 70, 87, 74, 92].map((height, i) => (
+            <i key={i} style={{ height: `${height}%`, animationDelay: `${i * 80}ms` }} />
+          ))}
+        </div>
+        <div className="device-list">
+          <div><span><i className="online" /> Core gateway</span><b>3.8 ms</b></div>
+          <div><span><i className="online" /> Edge resolver</span><b>8.2 ms</b></div>
+          <div><span><i className="warn" /> Backup node</span><b>42.1 ms</b></div>
+        </div>
+      </div>
     </div>
   );
-};
+}
 
-export default Index;
+function Hero() {
+  return (
+    <section className="hero" id="top">
+      <div className="hero-grid" />
+      <div className="shell hero-layout">
+        <div className="hero-copy reveal">
+          <div className="status-chip"><i /> SYSTEM OPERATIONAL</div>
+          <h1>
+            Know your network.
+            <span>Before it knows you.</span>
+          </h1>
+          <p>
+            RustPing turns high-speed infrastructure telemetry into a calm,
+            precise view of what is alive, what is slow, and what needs you now.
+          </p>
+          <div className="hero-actions">
+            <a href="#setup" className="button button-primary">Start monitoring <ArrowRight size={17} /></a>
+            <a href="#interface" className="text-link">See the interface <ArrowDown size={15} /></a>
+          </div>
+          <dl className="hero-stats">
+            <div><dt>Core</dt><dd>Rust + Tokio</dd></div>
+            <div><dt>Response</dt><dd>Real-time</dd></div>
+            <div><dt>Deploy</dt><dd>Self-hosted</dd></div>
+          </dl>
+        </div>
+        <MonitorVisual />
+      </div>
+      <div className="signal-strip">
+        <div className="shell">
+          <span><Zap size={14} /> Async probing</span>
+          <span><Globe2 size={14} /> Cross-platform</span>
+          <span><ShieldCheck size={14} /> Self-hosted</span>
+          <span><Gauge size={14} /> Low overhead</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeatureVisual({ type }: { type: string }) {
+  if (type === "latency") return (
+    <div className="mini-latency">
+      <span>PROBE LATENCY</span>
+      <strong>08.2<small>ms</small></strong>
+      <div><i /><i /><i /><i /><i /></div>
+    </div>
+  );
+  if (type === "chart") return (
+    <div className="mini-chart">
+      {[28, 42, 33, 60, 48, 72, 58, 82].map((h, i) => <i key={i} style={{ height: `${h}%` }} />)}
+    </div>
+  );
+  if (type === "nodes") return (
+    <div className="mini-nodes">
+      <i /><i /><i /><i /><i /><span />
+    </div>
+  );
+  return (
+    <div className="mini-export">
+      <span>EVENT EXPORT</span>
+      <b>CSV</b><b>JSON</b><b>TXT</b>
+    </div>
+  );
+}
+
+function SystemSection() {
+  return (
+    <section className="section section-system" id="system">
+      <div className="shell">
+        <div className="section-intro">
+          <div>
+            <span className="kicker">01 / THE SYSTEM</span>
+            <h2>Speed where it matters.<br /><em>Clarity everywhere else.</em></h2>
+          </div>
+          <p>From a single gateway to a whole subnet, every signal lands in a system designed for rapid understanding.</p>
+        </div>
+        <div className="feature-grid">
+          {features.map(({ number, icon: Icon, title, text, visual }) => (
+            <article className="feature-panel" key={number}>
+              <div className="feature-meta">
+                <span><Icon size={18} /></span>
+                <b>{number}</b>
+              </div>
+              <h3>{title}</h3>
+              <p>{text}</p>
+              <FeatureVisual type={visual} />
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function InterfaceSection() {
+  return (
+    <section className="section section-interface" id="interface">
+      <div className="shell">
+        <span className="kicker">02 / OPERATIONAL VIEW</span>
+        <div className="interface-title">
+          <h2>Your entire network.<br /><em>One decisive glance.</em></h2>
+          <p>A real product interface—not a wall of charts. RustPing keeps the most important state closest to your attention.</p>
+        </div>
+        <div className="dashboard-frame">
+          <img src="/screenshots/dashboardHome-dark.png" alt="RustPing dashboard showing monitored devices and network health" />
+          <div className="screen-label label-one"><span>01</span> Fleet overview</div>
+          <div className="screen-label label-two"><span>02</span> Live response</div>
+        </div>
+        <div className="capability-row">
+          <div><span>01</span><strong>ICMP + HTTP</strong><p>Multiple probe types in a single workflow.</p></div>
+          <div><span>02</span><strong>Live event stream</strong><p>State changes surface as they happen.</p></div>
+          <div><span>03</span><strong>Exportable history</strong><p>Operational evidence ready when needed.</p></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RoadmapSection() {
+  return (
+    <section className="section section-roadmap" id="roadmap">
+      <div className="shell">
+        <div className="section-intro roadmap-intro">
+          <div>
+            <span className="kicker">03 / PRODUCT DIRECTION</span>
+            <h2>Built in public.<br /><em>Driven by operations.</em></h2>
+          </div>
+          <p>Each release moves RustPing toward a more complete control surface for modern infrastructure teams.</p>
+        </div>
+        <div className="roadmap-list">
+          {roadmap.map(([number, title, status]) => (
+            <div className="roadmap-item" key={number}>
+              <span>{number}</span>
+              <strong>{title}</strong>
+              <i className={status === "Released" ? "released" : status === "In development" ? "development" : ""}>{status}</i>
+              <ArrowRight size={16} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SetupSection() {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    await navigator.clipboard.writeText(installCommand);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  };
+
+  return (
+    <section className="section section-setup" id="setup">
+      <div className="shell setup-layout">
+        <div>
+          <span className="kicker">04 / DEPLOYMENT</span>
+          <h2>From zero to signal<br />in three steps.</h2>
+          <div className="steps">
+            <div><span>01</span><p><strong>Build</strong>Compile an optimized release with Cargo.</p></div>
+            <div><span>02</span><p><strong>Launch</strong>Start the RustPing service locally.</p></div>
+            <div><span>03</span><p><strong>Observe</strong>Open the dashboard and add your targets.</p></div>
+          </div>
+        </div>
+        <div className="setup-terminal">
+          <div className="terminal-top"><span><i /><i /><i /></span><b>QUICK START</b></div>
+          <div className="terminal-body">
+            <span className="prompt">rustping@node:~$</span>
+            <code>{installCommand}</code>
+            <button onClick={copy}>{copied ? <Check size={15} /> : <Copy size={15} />} {copied ? "Copied" : "Copy command"}</button>
+          </div>
+          <div className="terminal-output">
+            <span>✓ release build complete</span>
+            <span>✓ dashboard ready at 127.0.0.1:8000</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FaqSection() {
+  const [open, setOpen] = useState(0);
+  return (
+    <section className="section section-faq">
+      <div className="shell">
+        <span className="kicker">05 / KNOWLEDGE BASE</span>
+        <h2>Common questions.</h2>
+        <div className="faq-list">
+          {faqs.map(([q, a], index) => (
+            <div className={`faq-item ${open === index ? "open" : ""}`} key={q}>
+              <button onClick={() => setOpen(open === index ? -1 : index)} aria-expanded={open === index}>
+                <span>0{index + 1}</span><strong>{q}</strong><ChevronDown size={18} />
+              </button>
+              <div><p>{a}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <>
+      <section className="final-cta">
+        <div className="shell">
+          <span>READY TO SEE CLEARLY?</span>
+          <h2>Put your network<br />on speaking terms.</h2>
+          <a className="button button-light" href="#setup">Deploy RustPing <ArrowRight size={17} /></a>
+        </div>
+      </section>
+      <footer>
+        <div className="shell footer-main">
+          <div><Brand /><p>Precise, self-hosted infrastructure monitoring powered by Rust.</p></div>
+          <div className="footer-links">
+            <a href="#system">System</a><a href="#interface">Interface</a><a href="#setup">Setup</a><Link to="/license">License</Link>
+          </div>
+        </div>
+        <div className="shell footer-bottom"><span>© {new Date().getFullYear()} RustPing</span><span>BUILT FOR SIGNAL, NOT NOISE.</span></div>
+      </footer>
+    </>
+  );
+}
+
+export default function Index() {
+  return (
+    <div className="site">
+      <Header />
+      <main>
+        <Hero />
+        <SystemSection />
+        <InterfaceSection />
+        <RoadmapSection />
+        <SetupSection />
+        <FaqSection />
+        <Footer />
+      </main>
+    </div>
+  );
+}
